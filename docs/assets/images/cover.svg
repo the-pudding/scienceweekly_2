@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+
+<!-- Page 20 -->
+<svg x="0" y="0" width="1564" height="1173" viewBox="0 0 1564 1173" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+style="display: block;margin-left: auto;margin-right: auto;">
+<defs>
+<clipPath id="c0_20"><path d="M0,1173.3V0H1564.4V1173.3Z" /></clipPath>
+<clipPath id="c1_20"><path d="M1108.5,1002.7V857.5h145.3v145.2Z" /></clipPath>
+
+<style type="text/css"><![CDATA[
+text { white-space: pre; }
+path, image { pointer-events: none; }
+
+.s1_20{
+font-size: 224.58px;
+font-family: Helvetica-Bold_3_;
+fill: #000000;
+}
+.s2_20{
+font-size: 30.56px;
+font-family: Helvetica-Bold_3_;
+fill: #000000;
+}
+.s3_20{
+font-size: 42.78px;
+font-family: Helvetica-Bold_3_;
+fill: #FFFFFF;
+}
+.s4_20{
+font-size: 25.97px;
+font-family: Georgia_40;
+fill: #000000;
+}
+.s5_20{
+font-size: 18.33px;
+font-family: HelveticaNeue-Bold_2r;
+fill: #FFFFFF;
+}
+
+.g0_20{
+fill: #FFFFFF;
+}
+.g1_20{
+fill: none;
+stroke: #000000;
+stroke-width: 3.0555556;
+stroke-linecap: butt;
+stroke-linejoin: miter;
+stroke-miterlimit: 4;
+}
+.g2_20{
+}
+.g3_20{
+fill: #FE5444;
+}
+.g4_20{
+fill: none;
+stroke: #ED8A81;
+stroke-width: 1.1458334;
+stroke-linecap: butt;
+stroke-linejoin: miter;
+stroke-miterlimit: 4;
+}
+.g5_20{
+fill: none;
+stroke: #FFFFFF;
+stroke-width: 0.38194445;
+stroke-linecap: butt;
+stroke-linejoin: miter;
+stroke-miterlimit: 4;
+}
+
+]]></style>
+
+</defs>
+<path d="M0,0
+L0,1173
+L1564,1173
+L1564,0 Z " 
+fill="#FFFFFF" stroke="none" />
+<path d="M0,1173.3H1564.4V0H0V1173.3Z" class="g0_20" />
+<image preserveAspectRatio="none" x="705" y="23" width="141" height="30" xlink:href="20/img/1.png" />
+<text transform="matrix(0, -1, 1, 0, 450, 1029)" class="s1_20">science.</text>
+<text x="464" y="181" class="s2_20">weekly</text>
+<g clip-path="url(#c0_20)">
+<path d="M782.2,1176.7V-3.3" class="g1_20" />
+</g>
+<image preserveAspectRatio="none" x="837" y="1102" width="141" height="29" xlink:href="20/img/2.png" />
+<g clip-path="url(#c0_20)">
+<path d="M781.1,-1.8h783.7V1173.3H781.1Z" class="g2_20" />
+</g>
+<path d="M830.8,198.1h674.1V625.8H830.8Z" class="g2_20" />
+<text x="837" y="245" class="s3_20">Science rests </text>
+<text x="837" y="297" class="s3_20">on citing those who </text>
+<text x="837" y="349" class="s3_20">came before us. </text>
+<text x="1116" y="557" class="s3_20">But what does that </text>
+<text x="1237" y="609" class="s3_20">really mean?</text>
+<g clip-path="url(#c1_20)">
+<path d="M1231,880.2c27.5,27.5,27.5,72.2,0,99.7c-27.5,27.6,-72.2,27.6,-99.7,0c-27.5,-27.5,-27.5,-72.2,0,-99.7c27.5,-27.5,72.2,-27.5,99.7,0Z" class="g3_20" />
+<path d="M1231,880.2c27.5,27.5,27.5,72.2,0,99.7c-27.5,27.6,-72.2,27.6,-99.7,0c-27.5,-27.5,-27.5,-72.2,0,-99.7c27.5,-27.5,72.2,-27.5,99.7,0Z" class="g4_20" />
+</g>
+<text x="1153" y="925" class="s4_20">Let’s </text>
+<text x="1145" y="956" class="s4_20">kick it</text>
+<image preserveAspectRatio="none" x="702" y="1125" width="141" height="30" xlink:href="20/img/3.png" />
+<image preserveAspectRatio="none" x="701" y="1124" width="141" height="29" xlink:href="20/img/4.png" />
+<path d="M1369,930.7v-264M1253.2,931.6h116.5M949,599.6V390.7m21.8,209h228.5m-181.9,9.2h135.3m199.7,278.4v-193m-14.6,129.2V738" class="g5_20" />
+<text x="1103" y="1135" class="s5_20">by Ilia Blinderman</text>
+
+
+<!-- Any embedded fonts defined here -->
+<style type="text/css" ><![CDATA[
+
+@font-face {
+	font-family: Georgia_40;
+	src: url("fonts/Georgia_40.woff") format("woff");
+}
+
+@font-face {
+	font-family: Helvetica-Bold_3_;
+	src: url("fonts/Helvetica-Bold_3_.woff") format("woff");
+}
+
+@font-face {
+	font-family: HelveticaNeue-Bold_2r;
+	src: url("fonts/HelveticaNeue-Bold_2r.woff") format("woff");
+}
+
+]]></style>
+
+</svg>
