@@ -1,16 +1,16 @@
 {
-	"title": "Title Case Hed Goes Here",
-	"description": "Sentence case dek goes down here. Modify these in data/meta.json.",
+    "title": "A chronicle of the anti-vaccination movement",
+	"description": "How one unethical study on vaccines caused irreparable harm.",
 	"site": "https://pudding.cool",
-	"siteName": "The Pudding",
-	"url": "https://pudding.cool/year/month/name/",
-	"keywords": "tk",
+	"siteName": "Ilia Blinderman",
+	"url": "https://pudding.cool/2019/06/science_etc_2/",
+	"keywords": "vaccines mmr anti-vaxx science",
 	"imgFacebook": "https://pudding.cool/year/month/name/assets/social/social-facebook.jpg",
 	"imgTwitter": "https://pudding.cool/year/month/name/assets/social/social-twitter.jpg",
 	"author": {
-		"name": "The Pudding",
-		"url": "https://pudding.cool/author/the-pudding-team",
-		"twitterHandle": "@puddingviz"
+		"name": "Ilia Blinderman",
+		"url": "https://pudding.cool/author/ilia-blinderman",
+		"twitterHandle": "@iliablinderman"
 	},
 	"analytics": "",
 	"lorem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mollis neque sit amet sollicitudin vehicula. Maecenas fringilla mi non lacus mattis elementum. Curabitur dignissim faucibus justo."

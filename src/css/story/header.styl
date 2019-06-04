@@ -4,8 +4,9 @@ header
 	top 0
 	left 0
 	width 100%
-	background-color $white
+	background-color #404153
 	font-family $sans
+    display none
 
 	a.logo
 		display block
@@ -14,18 +15,19 @@ header
 		margin 1rem auto
 
 		svg
-			fill $off-black
+			fill #559DB9
 			display block
 			width 100%
 	
 header.is-sticky
 	position fixed
 	transform translate3d(0,0,0)
-	background-color $white
+	background-color #404153
 	box-shadow 0 0 7px 1px $gray-light
 	height 3rem
 	display flex
 	align-items center
+    display none
 	
 	a.logo
 		margin 0 auto
@@ -72,6 +74,7 @@ header.is-sticky
 		color $off-white
 		z-index set-index(overlay)
 		transition transform 200ms ease-in-out
+        display none
 		+mq('bp-3')
 			border-left 1px solid $gray-dark
 

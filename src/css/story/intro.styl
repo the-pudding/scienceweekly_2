@@ -1,27 +1,442 @@
-.intro
-	margin 0 auto
-	padding 6rem 1rem 3rem 1rem
 
-	&__hed
-		max-width 60rem
-		margin 0 auto
-		text-align center
-		
-	&__dek
-		max-width $column-width
-		margin 0 auto
-		margin-top 1rem
-		text-align center
-	
-	&__byline
-		max-width $column-width
-		margin 0 auto
-		margin-top 1rem
-		text-align center
-	
-	&__time
-		display block
-		max-width $column-width
-		margin 0 auto
-		margin-top 1rem
-		text-align center
+.intro
+  position absolute
+  width 100%
+  height 100vh
+  z-index set-index('overlay')
+
+
+
+.cover-container
+    display flex
+    flex-direction column
+    +mq('bp-4')
+      flex-direction row
+
+.cover-left
+  padding 1rem  
+  font-family 'Open Sans', sans-serif;
+  flex-grow 1
+  background-color $white
+  height 30vh
+  display flex
+  flex-direction row
+  justify-content center
+  max-width none
+  width 100%
+  position relative
+  transform translateX(0)
+  transform translateY(0)
+  transition transform 200ms ease-in-out
+  +mq('bp-4')
+    max-width 50vw
+    height 100vh
+
+  &.slide
+    transition-duration: 0.5s; 
+    transform translateY(-100%)
+    +mq('bp-4')
+      transform translateY(-150%)
+
+  .rotate
+    position absolute
+    top 15%
+    transform rotate(0deg)
+    font-family $sans-display
+    font-size 100px
+    font-weight 700
+    text-align left
+    +mq('bp-4')
+      transform rotate(-90deg)
+      top 25%
+      text-align right
+
+  .title-wrap
+    width 80%
+    margin 0 auto
+    display flex
+    justify-content center
+    align-items center
+    +mq('bp-4')
+      width 100%
+      padding 0
+
+    svg
+      width 100%
+      transform rotate(0deg)
+      +mq('bp-4')
+        width 100%
+        transform rotate(-90deg)
+
+  .weekly-wrapper
+    position absolute
+    left 75%
+    top 49%
+    display flex
+    flex-direction column
+    +mq('bp-4')
+      flex-direction row
+      left 54.5%
+      top 16%
+
+    .dot-block
+      background-color #ff533d
+      width 1rem
+      height 1rem
+
+    h3
+      margin 0 0 0 -3.55rem
+      padding 0 0 0 3.5rem
+      text-transform uppercase
+      font-family $sans
+      color #ff533d
+      transform rotate(90deg)
+      +mq('bp-4')
+        transform rotate(0deg)
+        margin -0.5rem 0 0 0
+        padding 0 0 0 0.25rem
+
+.cover-right
+  padding 1rem
+  flex-grow 1
+  background-color #404153
+  height 70vh
+  max-width none
+  width 100%
+  position relative
+  transform translateX(0)
+  transform translateY(0)
+  transition transform 200ms ease-in-out
+  +mq('bp-4')
+    max-width 50vw
+    height 100vh
+    display flex 
+    flex-direction column
+    justify-content: center
+
+  &.slide
+    transition-duration: .5s;
+    transform translateY(100%)
+    +mq('bp-4')
+      transform translateY(-150%)
+
+  .details
+    display flex
+    flex-direction column
+    margin 1rem auto 0 auto
+    width 95%
+    justify-content center  
+    +mq('bp-3')  
+        display flex
+        flex-direction column
+        margin 3rem auto 0 auto
+        width 80%
+        justify-content center  
+
+
+
+    svg
+      width 10rem
+      fill $white
+
+    p
+      color $white
+      font-family $sans
+      set-type-size('medium', true)
+      margin 0.25rem 0 0.5rem 0
+
+      a
+        font-weight 600
+        color $white
+        border-bottom 1px solid $white
+
+        &:hover
+          color $gray
+          border-bottom 1px solid $gray
+
+    .weeks
+      display flex
+      flex-direction column
+      
+      .author-box
+            display flex
+            flex-direction row            
+            padding 0.5rem 0
+            justify-content flex-start
+        
+        .author-para
+            set-type-size('small', true)
+
+      .week-previous
+        display flex
+        flex-direction row
+        border-bottom 1px solid $gray
+        padding 0.5rem 0
+        justify-content space-between
+        set-type-size('xxx-large', true)
+        
+        .date-week-1
+          width 10rem
+          color #858383
+          font-weight 600
+          font-family $sans-display
+          text-transform uppercase
+          padding 0
+          margin 0
+
+        .topic
+          padding 0
+          margin 0
+
+        a
+            font-weight: 400;
+            color: #858383;
+            border-bottom: 1px solid #858383;
+
+      .week-current
+        display flex
+        flex-direction row
+        border-bottom 1px solid $white
+        padding 0.5rem 0
+        justify-content space-between
+        set-type-size('xxx-large', true)
+
+        .date-week-1
+          width 10rem
+          color #858383
+          font-weight 600
+          font-family $sans-display
+          text-transform uppercase
+          padding 0
+          margin 0
+
+        .date-week-2
+          width 10rem
+          color #E17D7F
+          font-weight 600
+          font-family $sans-display
+          text-transform uppercase
+          padding 0
+          margin 0
+
+        .topic
+          padding 0
+          margin 0
+
+  .arrow-cover
+    position absolute
+    top auto
+    bottom 5rem
+    right 50%    
+    width 3.5rem
+    height 3.5rem
+    cursor pointer
+    display flex
+    justify-content center
+    align-items center
+    transform translate(50%,0) rotate(90deg);
+    +mq('bp-3')
+        transform translate(50%,0) rotate(90deg);
+        right 100%
+        bottom 2rem
+        // top 1rem
+
+    .button-circle
+      position absolute
+      width 3.5rem
+      height 3.5rem
+      background-color #e17d7f
+      border-radius 50%
+      display flex
+      justify-content center
+      align-items center
+      animation pulse-dot 1.15s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite
+
+      svg
+        stroke $white
+        width 60%
+        height 60%
+        pulse-svg 1.15s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite
+
+    .pulse-circle
+      position absolute
+      width 6rem
+      height 6rem
+      background-color $white
+      border-radius 50%
+      animation pulse-ring 1.15s cubic-bezier(0.215, 0.61, 0.355, 1) infinite
+
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(.33);
+  }
+  80%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-dot {
+  0% {
+    transform: scale(.8);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(.8);
+  }
+}
+
+@keyframes pulse-dot {
+  0% {
+    transform: scale(.8);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(.8);
+  }
+}
+
+
+#hover-hand
+    height 1em
+    width 1em
+    stroke #858383
+    display none
+    +mq('bp-3')
+       display auto 
+
+
+.intro-copy
+    position absolute
+    left 50%
+    top 50%
+    transform: translate(-50%,-50%)
+    background-color: #313240
+    box-shadow 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding 0 2em
+    // z-index 500
+    // display none
+
+.arrow-intro-text
+    position absolute
+    top auto
+    bottom 5rem
+    right 50%    
+    width 3.5rem
+    height 3.5rem
+    cursor pointer
+    display flex
+    justify-content center
+    align-items center
+    transform translate(50%,0) rotate(90deg);
+    +mq('bp-3')
+        transform translate(50%,0) rotate(90deg);
+        right 50%
+        bottom 2rem
+        // top 1rem
+
+    .button-circle
+        position absolute
+        width 3.5rem
+        height 3.5rem
+        background-color #e17d7f
+        border-radius 50%
+        display flex
+        justify-content center
+        align-items center
+    
+        svg
+            stroke $white
+            width 60%
+            height 60%
+
+
+.para-heading
+    text-transform: uppercase
+    color #e17d7f
+    font-weight: 800
+    font-family $sans
+    font-size 24px
+
+
+
+
+.arrow-up-svg
+    position absolute
+    bottom auto
+    bottom 5rem
+    right 50%    
+    width 3.5rem
+    height 3.5rem
+    cursor pointer
+    display flex
+    justify-content center
+    align-items center
+    transform translate(50%,0) rotate(270deg);
+    +mq('bp-3')
+        transform translate(50%,0) rotate(270deg);
+        right 50%
+        top 2rem
+        // top 1rem
+
+    .button-circle
+        position absolute
+        width 3.5rem
+        height 3.5rem
+        background-color #e17d7f
+        border-radius 50%
+        display flex
+        justify-content center
+        align-items center
+    
+        svg
+            stroke $white
+            width 60%
+            height 60%
+
+
+.arrow-up-intro
+    position absolute
+    bottom auto
+    bottom 5rem
+    right 50%    
+    width 3.5rem
+    height 3.5rem
+    cursor pointer
+    display flex
+    justify-content center
+    align-items center
+    transform translate(50%,0) rotate(270deg);
+    +mq('bp-3')
+        transform translate(50%,0) rotate(270deg);
+        right 50%
+        top 2rem
+        // top 1rem
+
+    .button-circle
+        position absolute
+        width 3.5rem
+        height 3.5rem
+        background-color #e17d7f
+        border-radius 50%
+        display flex
+        justify-content center
+        align-items center
+    
+        svg
+            stroke $white
+            width 60%
+            height 60%
+
+
+.blue
+    color #559DB9
+    font-weight: 800
+
+.pink
+    color #E17D7F
+    font-weight: 800
