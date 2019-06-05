@@ -193,7 +193,7 @@ function createTimelineAnnotations(mergedData){
     annotationInsert1['className']='anno-intro'
     annotationInsert1['note'] = {
         label: 'Here’s a timeline of New York Times articles that mention a relationship between vaccines and autism in the same story, pre-1998.',
-        title: 'The beginning',
+        title: 'Before 1998',
         bgPadding: {"top":15,"left":10,"right":10,"bottom":10},
         wrap: 200       
     }
