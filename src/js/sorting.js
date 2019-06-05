@@ -17,4 +17,4 @@ function sortDatesYearMonth(a,b) {
     return new Date(a[0], a[1], 1) - new Date(b[0], b[1], 1)
 }
 
-export default
+export default {sortNumberStories, sortDatesKey, sortDatesYearMonth}
