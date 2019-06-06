@@ -81,35 +81,60 @@ function handleMouseEnter(d,i,n){
     const [xCoord,yCoord] = d3.mouse(this)
     const introHeight = d3.select('div.intro').node().offsetHeight
 
+    d3.selectAll('.paper').classed('faded', true)
+    d3.selectAll('.article').classed('faded', true)
+    d3.select(this).classed('highlight', true)
+
     $tooltip
         .classed('hidden',false)
-        .st('left',xCoord)
+        .st('left',xCoord + 20)
         .st('top',yCoord)
-        .st('max-width', ()=>{return width>600 ? width/4 : width/3})
+        .st('max-width', ()=>{return width>600 ? width/3 : width/2})
         .html(`<p class='sci-title'>${d.data.hed_main}</p><p class='sci-author'>${d.data.author}</p><p class='sci-body'>${d.data.abstract.slice(0,200)}...</p>`)
 }
 
 function handleMouseLeave(d){
     $tooltip.classed('hidden',true)
+
+    d3.selectAll('.paper').classed('faded', false)
+    d3.selectAll('.article').classed('faded', false)
+    d3.selectAll('.paper').classed('highlight', false)
+    d3.selectAll('.article').classed('highlight', false)
+}
+
+function scrollTo(element) {
+	window.scroll({
+		behavior: 'smooth',
+		left: 0,
+		top: element.offsetTop
+	});
 }
 
 function handleBackClick(){
-  d3.select('body').st('overflow', 'hidden')
-  $coverRight.classed('slide', false)
-  $coverLeft.classed('slide', false)
-  d3.select(`.timeline-intro`).classed('slide', false)
+  console.log(slideCount)
+  const el = d3.select('#content').node();
+  scrollTo(el)
+
+  setTimeout(function() {
+    d3.select(`.timeline-intro`).classed('slide', false)
+  }, 300)
+
+  setTimeout(function() {
+    $coverRight.classed('slide', false)
+    $coverLeft.classed('slide', false)
+  }, 800)
+
   $buttonArrowCover.st('display','flex')
   d3.select(`.intro`).st('display','block')
-  d3.select(`.timeline-svg`).st('display','none')
   d3.select(`.timeline-intro`).st('display','block')
+  d3.select('body').st('overflow', 'hidden')
   slideCount-=2
 }
 
 function handleForwardClick(){
-
+    console.log(slideCount)
     if (slideCount === 0){
-        d3.select('.timeline-svg')
-        .st('display','none')
+        //d3.select('.timeline-svg').st('display','none')
 
         $coverRight.classed('slide', true)
         $coverLeft.classed('slide', true)
