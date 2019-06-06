@@ -47,7 +47,7 @@ html
 
       .button-circle
         background-color transparent
-        border 1px solid $white
+        border 2px solid $off-white
         width 2rem
         height 2rem
         margin-top 1.5rem
@@ -56,7 +56,8 @@ html
           background-color rgba($white, 0.2)
 
         svg
-          stroke-width 1px
+          stroke-width 2px
+          stroke $off-white
 
 // .timeline-svg
     // display none
@@ -116,3 +117,35 @@ html
 circle
     stroke #000
     cursor pointer
+
+.scroll-hint
+  position fixed
+  display flex
+  bottom 0.5rem
+  right 1rem
+  visibility hidden
+  &.is-visible
+    visibility visible
+
+  p
+    color $red
+    font-family $national
+    margin 0.5rem 0
+    set-type-size('small', true)
+    font-weight 700
+    text-transform uppercase
+
+  svg
+    stroke $red
+    stroke-width 2px
+    margin 0.5rem 0 0 0.15rem
+    animation bounceUp 1s infinite
+    position relative
+    bottom 0
+
+@keyframes bounceUp {
+  0%       { bottom:1px; }
+  25%, 75% { bottom:2px; }
+  50%      { bottom:3px; }
+  100%     { bottom:0; }
+}

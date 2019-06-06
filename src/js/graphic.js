@@ -50,6 +50,7 @@ const RAD_PAPER = 20;
 const RAD_ARTICLE = 5;
 const COL_PAPER = '#559DB9'
 const COL_ARTICLE = '#E17D7F'
+const $scrollhint = d3.select('.scroll-hint');
 
 
 // Tracking
@@ -122,6 +123,7 @@ function handleBackClick(){
   setTimeout(function() {
     $coverRight.classed('slide', false)
     $coverLeft.classed('slide', false)
+    $scrollhint.classed('is-visible', true)
   }, 800)
 
   $buttonArrowCover.st('display','flex')
@@ -428,6 +430,12 @@ generateAnnotations()
     $buttonArrowBackIntro
         .on('click',handleBackClick)
 
+}
+
+window.onscroll = function() {
+	if ($scrollhint.classed('is-visible') == true) {
+		$scrollhint.classed('is-visible', false)
+	}
 }
 
 function init() {
