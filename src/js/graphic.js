@@ -177,6 +177,8 @@ function createSimulation(){
 function createTimelineAnnotations(mergedData){
     const annotationItemsOnly = mergedData.filter(item=>item.annotation);
 
+    let widthWrap = d3.select('body').node().offsetWidth;
+
     const annotationsFormatted= annotationItemsOnly.map((item, index)=>{
         const annotationObject = {}
 
@@ -186,7 +188,7 @@ function createTimelineAnnotations(mergedData){
             label: item.annotation,
             title: item.anno_title,
             bgPadding: {"top":15,"left":10,"right":10,"bottom":10},
-            wrap: 200
+            wrap: widthWrap/4
         }
 
         annotationObject['data'] = {
@@ -195,7 +197,7 @@ function createTimelineAnnotations(mergedData){
             r: item.type ==='article'? RAD_ARTICLE : RAD_PAPER
         }
 
-        annotationObject['dx'] = index%2 ? -200 : 100;
+        annotationObject['dx'] = index%2 ? -120 : 100;
         annotationObject['dy'] = index%2 ? 0 : 0;
 
         return annotationObject
