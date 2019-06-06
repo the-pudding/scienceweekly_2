@@ -1,3 +1,6 @@
+body
+  overflow hidden
+
 
 .intro
   position absolute
@@ -14,7 +17,7 @@
       flex-direction row
 
 .cover-left
-  padding 1rem  
+  padding 1rem
   font-family 'Open Sans', sans-serif;
   flex-grow 1
   background-color $white
@@ -33,10 +36,11 @@
     height 100vh
 
   &.slide
-    transition-duration: 0.5s; 
     transform translateY(-100%)
+    transition transform 200ms ease-in-out
     +mq('bp-4')
-      transform translateY(-150%)
+      transform translateX(-100%)
+      transition transform 200ms ease-in-out
 
   .rotate
     position absolute
@@ -99,7 +103,7 @@
 .cover-right
   padding 1rem
   flex-grow 1
-  background-color #404153
+  background-color $off-black
   height 70vh
   max-width none
   width 100%
@@ -110,30 +114,32 @@
   +mq('bp-4')
     max-width 50vw
     height 100vh
-    display flex 
+    display flex
     flex-direction column
     justify-content: center
 
   &.slide
-    transition-duration: .5s;
     transform translateY(100%)
+    transition transform 200ms ease-in-out
     +mq('bp-4')
-      transform translateY(-150%)
+      transform translateX(100%)
+      transition transform 200ms ease-in-out
 
   .details
     display flex
     flex-direction column
     margin 1rem auto 0 auto
     width 95%
-    justify-content center  
-    +mq('bp-3')  
+    justify-content center
+    +mq('bp-3')
         display flex
         flex-direction column
         margin 3rem auto 0 auto
         width 80%
-        justify-content center  
+        justify-content center
 
-
+    a
+      border-bottom none
 
     svg
       width 10rem
@@ -157,27 +163,31 @@
     .weeks
       display flex
       flex-direction column
-      
+
       .author-box
             display flex
-            flex-direction row            
+            flex-direction row
             padding 0.5rem 0
             justify-content flex-start
-        
+
         .author-para
             set-type-size('small', true)
 
       .week-previous
         display flex
         flex-direction row
-        border-bottom 1px solid $gray
+        border-bottom 1px solid $white
         padding 0.5rem 0
         justify-content space-between
         set-type-size('xxx-large', true)
-        
+
+        &:hover
+          background-color #323232
+          cursor pointer
+
         .date-week-1
           width 10rem
-          color #858383
+          color $gray
           font-weight 600
           font-family $sans-display
           text-transform uppercase
@@ -187,11 +197,7 @@
         .topic
           padding 0
           margin 0
-
-        a
-            font-weight: 400;
-            color: #858383;
-            border-bottom: 1px solid #858383;
+          color $gray
 
       .week-current
         display flex
@@ -203,7 +209,7 @@
 
         .date-week-1
           width 10rem
-          color #858383
+          color $gray
           font-weight 600
           font-family $sans-display
           text-transform uppercase
@@ -212,7 +218,7 @@
 
         .date-week-2
           width 10rem
-          color #E17D7F
+          color $red
           font-weight 600
           font-family $sans-display
           text-transform uppercase
@@ -220,51 +226,60 @@
           margin 0
 
         .topic
+          font-weight 700
           padding 0
           margin 0
 
-  .arrow-cover
+#hover-hand
+    height 1em
+    width 1em
+    stroke #858383
+    display none
+    +mq('bp-3')
+       display auto
+
+.arrow-cover
+  z-index set-index('overlay')
+  position absolute
+  top auto
+  bottom 5rem
+  right 50%
+  width 3.5rem
+  height 3.5rem
+  cursor pointer
+  display flex
+  justify-content center
+  align-items center
+  transform translate(50%,0) rotate(90deg);
+  +mq('bp-3')
+      transform translate(50%,0) rotate(90deg);
+      bottom 2rem
+      // top 1rem
+
+  .button-circle
     position absolute
-    top auto
-    bottom 5rem
-    right 50%    
     width 3.5rem
     height 3.5rem
-    cursor pointer
+    background-color $red
+    border-radius 50%
     display flex
     justify-content center
     align-items center
-    transform translate(50%,0) rotate(90deg);
-    +mq('bp-3')
-        transform translate(50%,0) rotate(90deg);
-        right 100%
-        bottom 2rem
-        // top 1rem
+    animation pulse-dot 1.15s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite
 
-    .button-circle
-      position absolute
-      width 3.5rem
-      height 3.5rem
-      background-color #e17d7f
-      border-radius 50%
-      display flex
-      justify-content center
-      align-items center
-      animation pulse-dot 1.15s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite
+    svg
+      stroke $white
+      width 60%
+      height 60%
+      pulse-svg 1.15s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite
 
-      svg
-        stroke $white
-        width 60%
-        height 60%
-        pulse-svg 1.15s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite
-
-    .pulse-circle
-      position absolute
-      width 6rem
-      height 6rem
-      background-color $white
-      border-radius 50%
-      animation pulse-ring 1.15s cubic-bezier(0.215, 0.61, 0.355, 1) infinite
+  .pulse-circle
+    position absolute
+    width 6rem
+    height 6rem
+    background-color $white
+    border-radius 50%
+    animation pulse-ring 1.15s cubic-bezier(0.215, 0.61, 0.355, 1) infinite
 
 
 @keyframes pulse-ring {
@@ -301,31 +316,34 @@
 }
 
 
-#hover-hand
-    height 1em
-    width 1em
-    stroke #858383
-    display none
-    +mq('bp-3')
-       display auto 
-
-
 .intro-copy
+    width 100%
+    max-width $column-width
     position absolute
     left 50%
     top 50%
     transform: translate(-50%,-50%)
-    background-color: #313240
+    background-color: $white
     box-shadow 0px 4px 4px rgba(0, 0, 0, 0.25);
     padding 0 2em
     // z-index 500
     // display none
 
+    p
+      color $off-black
+      set-type-size('medium', true)
+
+    .para-heading
+        text-transform: uppercase
+        font-weight: 800
+        font-family $sans
+        set-type-size('x-large', true) !important
+
 .arrow-intro-text
     position absolute
     top auto
     bottom 5rem
-    right 50%    
+    right 50%
     width 3.5rem
     height 3.5rem
     cursor pointer
@@ -348,40 +366,20 @@
         display flex
         justify-content center
         align-items center
-    
+
         svg
             stroke $white
             width 60%
             height 60%
 
-
-.para-heading
-    text-transform: uppercase
-    color #e17d7f
-    font-weight: 800
-    font-family $sans
-    font-size 24px
-
-
-
-
 .arrow-up-svg
     position absolute
-    bottom auto
-    bottom 5rem
-    right 50%    
-    width 3.5rem
-    height 3.5rem
+    //right 50%
     cursor pointer
     display flex
     justify-content center
     align-items center
-    transform translate(50%,0) rotate(270deg);
-    +mq('bp-3')
-        transform translate(50%,0) rotate(270deg);
-        right 50%
-        top 2rem
-        // top 1rem
+    top 1rem
 
     .button-circle
         position absolute
@@ -392,7 +390,8 @@
         display flex
         justify-content center
         align-items center
-    
+        margin-top -0.5rem
+
         svg
             stroke $white
             width 60%
@@ -403,16 +402,16 @@
     position absolute
     bottom auto
     bottom 5rem
-    right 50%    
+    right 50%
     width 3.5rem
     height 3.5rem
     cursor pointer
     display flex
     justify-content center
     align-items center
-    transform translate(50%,0) rotate(270deg);
+    transform translate(50%,0)
     +mq('bp-3')
-        transform translate(50%,0) rotate(270deg);
+        transform translate(50%,0);
         right 50%
         top 2rem
         // top 1rem
@@ -426,7 +425,7 @@
         display flex
         justify-content center
         align-items center
-    
+
         svg
             stroke $white
             width 60%
@@ -434,9 +433,9 @@
 
 
 .blue
-    color #559DB9
+    color $teal
     font-weight: 800
 
 .pink
-    color #E17D7F
+    color $red
     font-weight: 800

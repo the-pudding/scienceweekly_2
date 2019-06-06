@@ -16,7 +16,7 @@ let mergedData;
 let annotations;
 
 // Dimensions
-let margin = {'left':100, 'right':200, 'top':100, 'bottom':100};
+let margin = {'left':100, 'right':200, 'top':120, 'bottom':100};
 let width;
 let height;
 let yScale;
@@ -34,7 +34,7 @@ let $buttonArrowBackIntro;
 let simulation;
 let $tooltip;
 
-let $body;  
+let $body;
 let $svg;
 let $timeline;
 let $timelineAxis;
@@ -52,7 +52,7 @@ const COL_PAPER = '#559DB9'
 const COL_ARTICLE = '#E17D7F'
 
 
-// Tracking 
+// Tracking
 let slideCount = 0
 
 // Notes to self
@@ -85,7 +85,7 @@ function handleMouseEnter(d,i,n){
         .classed('hidden',false)
         .st('left',xCoord)
         .st('top',yCoord)
-        .st('max-width', ()=>{return width>600 ? width/4 : width/3})        
+        .st('max-width', ()=>{return width>600 ? width/4 : width/3})
         .html(`<p class='sci-title'>${d.data.hed_main}</p><p class='sci-author'>${d.data.author}</p><p class='sci-body'>${d.data.abstract.slice(0,200)}...</p>`)
 }
 
@@ -94,28 +94,15 @@ function handleMouseLeave(d){
 }
 
 function handleBackClick(){
-    if (slideCount === 1){
-
-        console.log('hello')
-        d3.select('.timeline-svg')
-        .st('display','none')
-             
-        $coverRight.classed('slide', false)
-        $coverLeft.classed('slide', false)
-        d3.select(`.cover-container`).st('display','flex')   
-        d3.select(`.intro`).st('display','block')  
-        slideCount-=1        
-        
-        // d3.select(`.slide-${slideCount}`).st('display','block')   
-        // d3.select(`.slide-${slideCount}`).classed('hidden',false)    
-            
-    }
-    else if (slideCount === 2){
-        
-        d3.select(`.timeline-svg`).st('display','none')
-        d3.select(`.timeline-intro`).st('display','block')
-        slideCount-=1 
-    }
+  d3.select('body').st('overflow', 'hidden')
+  $coverRight.classed('slide', false)
+  $coverLeft.classed('slide', false)
+  d3.select(`.timeline-intro`).classed('slide', false)
+  $buttonArrowCover.st('display','flex')
+  d3.select(`.intro`).st('display','block')
+  d3.select(`.timeline-svg`).st('display','none')
+  d3.select(`.timeline-intro`).st('display','block')
+  slideCount-=2
 }
 
 function handleForwardClick(){
@@ -123,24 +110,21 @@ function handleForwardClick(){
     if (slideCount === 0){
         d3.select('.timeline-svg')
         .st('display','none')
-             
+
         $coverRight.classed('slide', true)
         $coverLeft.classed('slide', true)
-        d3.select(`.cover-container`).st('display','none')   
-        d3.select(`.intro`).st('display','none')  
-        slideCount+=1        
-        
-        // d3.select(`.slide-${slideCount}`).st('display','block')   
-        // d3.select(`.slide-${slideCount}`).classed('hidden',false)    
-            
+        //d3.select(`.intro`).st('display','none')
+        slideCount+=1
     }
-    else if (slideCount === 1){
-        
+    else {
+        $buttonArrowCover.st('display','none')
         d3.select(`.timeline-svg`).st('display','block')
-        d3.select(`.timeline-intro`).st('display','none')
-        slideCount+=1 
-    }
+        d3.select(`.timeline-intro`).classed('slide', 'true')
+        d3.select(`.intro`).st('display','none')
+        slideCount+=1
 
+        d3.select('body').st('overflow', 'auto')
+    }
 }
 
 
@@ -151,7 +135,7 @@ function createSimulation(){
         return width/2.02
     }
 
-    simulation = d3.forceSimulation(mergedData)        
+    simulation = d3.forceSimulation(mergedData)
     .force('x', d3.forceX(d=>setForceX(d.type)))
     .force('y', d3.forceY(d=> yScale(d.date)).strength(1))
     .force('collide', d3.forceCollide(function(d){
@@ -160,7 +144,7 @@ function createSimulation(){
     .stop();
 
     for (var i = 0; i < 220; ++i) simulation.tick();
-    
+
 }
 
 function createTimelineAnnotations(mergedData){
@@ -168,14 +152,14 @@ function createTimelineAnnotations(mergedData){
 
     const annotationsFormatted= annotationItemsOnly.map((item, index)=>{
         const annotationObject = {}
-                
+
         annotationObject['className'] = `anno-${item.type}`;
 
         annotationObject['note'] = {
             label: item.annotation,
             title: item.anno_title,
             bgPadding: {"top":15,"left":10,"right":10,"bottom":10},
-            wrap: 200       
+            wrap: 200
         }
 
         annotationObject['data'] = {
@@ -183,7 +167,7 @@ function createTimelineAnnotations(mergedData){
             x: item.x,
             r: item.type ==='article'? RAD_ARTICLE : RAD_PAPER
         }
-        
+
         annotationObject['dx'] = index%2 ? -200 : 100;
         annotationObject['dy'] = index%2 ? 0 : 0;
 
@@ -197,7 +181,7 @@ function createTimelineAnnotations(mergedData){
 function generateAnnotations(){
 
     const type = d3.annotationCallout
-    
+
     const parseTime = d3.timeParse("%d-%b-%y");
 
     const makeAnnotations = d3.annotation()
@@ -225,11 +209,17 @@ function generateAnnotations(){
 
     d3.selectAll('.anno-article')
         .select('.annotation-note-title')
-        .st('fill', '#559DB9')
+        .st('fill', '#34A29E')
 
     d3.selectAll('.anno-paper')
         .select('.annotation-note-title')
-        .st('fill', '#E17D7F')
+        .st('fill', '#ff533d')
+
+    d3.selectAll('.connector')
+        .st('stroke', '#c9c9c9')
+
+    d3.selectAll('.note-line')
+        .st('stroke', '#c9c9c9')
 }
 
 
@@ -240,13 +230,13 @@ function cleanArticleData(dirtyData){
         month: +item.formatted_pub_date.split('/')[1],
         day: +item.formatted_pub_date.split('/')[2],
         date: new Date(item.formatted_pub_date),
-        yearMonth: `${item.formatted_pub_date.split('/')[0]}-${item.formatted_pub_date.split('/')[1]}`,        
+        yearMonth: `${item.formatted_pub_date.split('/')[0]}-${item.formatted_pub_date.split('/')[1]}`,
     })).sort(sortDatesYearMonth)
 
     const filteredPropertiesData = addedPropertiesData.filter(item=> (item.type_of_material !== 'Correction') && (item.print_page !== '') && (item.source !== 'International Herald Tribune')&& (item.type === 'article'))
 
     // eslint-disable-next-line no-restricted-syntax
-    for (const article of filteredPropertiesData){    
+    for (const article of filteredPropertiesData){
         delete article.filename;
         delete article.keywords;
         delete article.multimedia;
@@ -257,8 +247,8 @@ function cleanArticleData(dirtyData){
         delete article.type_of_material;
         delete article.uri;
         delete article.word_count;
-        delete article.blog;         
-        // delete article.byline;   
+        delete article.blog;
+        // delete article.byline;
         delete article.headline;
         delete article.print_page;
         delete article.source;
@@ -286,10 +276,10 @@ function mergeData(dataset1, dataset2){
 
     for (const item of dataset1)
         combinedDataSet.push(item)
-    
+
     for (const item of dataset2)
         combinedDataSet.push(item)
-    
+
     return combinedDataSet
 }
 
@@ -300,20 +290,20 @@ function resize() {
 
     $svg.at('width', width)
         .at('height', height)
-    
+
     yScale = d3.scaleTime()
         .domain([(new Date('1990-01-01')),(new Date('2019-10-15'))])
         .range([margin.top, height-margin.bottom]);
 
 }
 
-function setupDOM() {   
+function setupDOM() {
     $coverRight = d3.select('.cover-right')
     $coverLeft = d3.select('.cover-left')
     $body = d3.select('body');
     $svg = d3.select('svg.timeline-svg')
-    $timeline = $svg.append('g.timeline-g')   
-    $tooltip = d3.select('.tooltip')  
+    $timeline = $svg.append('g.timeline-g')
+    $tooltip = d3.select('.tooltip')
     $buttonArrowCover = d3.select('.arrow-cover')
     $buttonArrowCopy = d3.select('.arrow-intro-text')
     $buttonArrowBack = d3.select('.arrow-up-svg')
@@ -321,7 +311,7 @@ function setupDOM() {
 }
 
 
-function render() {  
+function render() {
 
 generateAnnotations()
 
@@ -333,9 +323,9 @@ generateAnnotations()
         .at('x1', width/2)
         .at('y1', margin.top)
         .at('x2', width/2)
-        .at('y2', height-margin.bottom); 
+        .at('y2', height-margin.bottom);
 
-    $timelineAxis =  $timeline.append('g.timeline-axis')        
+    $timelineAxis =  $timeline.append('g.timeline-axis')
     $timelineCirclesG = $timelineAxis.append('g.timeline-circle-g')
 
     articlesJoin = $timelineCirclesG
@@ -348,7 +338,7 @@ generateAnnotations()
             .polygons(mergedData)
         )
         .enter()
-    
+
     $articleCells = articlesJoin
         .append('g.cells')
 
@@ -363,7 +353,7 @@ generateAnnotations()
         })
         .on('click', d => {
             d.data.type==='article' ? window.open(d.data.web_url) : window.open(d.data.link)
-        })    
+        })
         .on('mousemove',handleMouseEnter)
         .on('mouseleave',handleMouseLeave)
 
@@ -381,27 +371,27 @@ generateAnnotations()
         .at('transform',`translate(${width/2},0)`)
         .call(
             d3.axisLeft(yScale)
-            .ticks(d3.timeYear)                   
+            .ticks(d3.timeYear)
         )
-        
+
     $timelineAxisForeground
         .selectAll('.tick')
         .select('text')
-        .st('fill', '#AFAFAF')
-    
+        .st('fill', '#c9c9c9')
+
     $timelineAxis
         .selectAll('g.tick')
         .st('font-size', '16px')
-        
-    
+
+
     $timelineAxisBackground
         .selectAll('g.tick')
         .selectAll('text')
-        .st('stroke','#404153')
+        .st('stroke','#282828')
         .st('stroke-width', '2')
-    
-    
-    $buttonArrowCover 
+
+
+    $buttonArrowCover
         .on('click', handleForwardClick)
 
     $buttonArrowCopy
@@ -409,7 +399,7 @@ generateAnnotations()
 
     $buttonArrowBack
         .on('click', handleBackClick)
-    
+
     $buttonArrowBackIntro
         .on('click',handleBackClick)
 
@@ -434,14 +424,14 @@ function init() {
         articleData = response[0];
         paperData = response[1]
 
-        cleanedArticleData = cleanArticleData(articleData)    
+        cleanedArticleData = cleanArticleData(articleData)
         cleanedPaperData = cleanPaperData(paperData);
-        mergedData = mergeData(cleanedArticleData,cleanedPaperData)        
+        mergedData = mergeData(cleanedArticleData,cleanedPaperData)
         timelineAnnotationList = createTimelineAnnotations(mergedData)
-        
+
         setupDOM();
-        resize();    
-        createSimulation()        
+        resize();
+        createSimulation()
         console.log(mergedData)
         render();
       }
