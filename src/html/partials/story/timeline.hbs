@@ -14,3 +14,15 @@
         <svg class='timeline-svg'></svg>
     </div>
 </div>
+
+<div class='conclusion'>
+                {{#each doc.conclusion}}
+                <p>{{{value}}}</p>
+            {{/each}}
+</div>
+<div class='method'>
+            {{#each doc.Method}}
+                <p>{{{value}}}</p>
+            {{/each}}
+</div>
+
