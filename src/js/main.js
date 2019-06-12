@@ -1,4 +1,5 @@
 /* global d3 */
+console.log('running')
 import debounce from 'lodash.debounce';
 import isMobile from './utils/is-mobile';
 import graphic from './graphic';
@@ -31,6 +32,7 @@ function setupStickyHeader() {
 }
 
 function init() {
+    
   // add mobile class to body tag
   $body.classed('is-mobile', isMobile.any());
   // setup resize event

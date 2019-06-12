@@ -1,51 +1,45 @@
 
 
     <div class='timeline-intro slide-1'>
-                <div class='arrow-up-intro'>
-            <div class='pulse-circle'></div>
-            <div class='button-circle'>
-              <img inline src='arrow-right.svg'>
-            </div>
-          </div>
+                
         <div class='intro-copy'>
-            
+
 
             <p class='para-heading'>The Anti-vaccine chronicles</p>
             {{#each doc.intro}}
                 <p>{{{value}}}</p>
             {{/each}}
         </div>
-        <div class='arrow-intro-text'>
-            <div class='pulse-circle'></div>
-            <div class='button-circle'>
-            <img inline src='arrow-right.svg'>
-            </div>
-        </div>
     </div>
 <div class='intro'>
 
 
     <div class='cover-container'>
+        <div class='arrow-cover'>
+          <div class='pulse-circle'></div>
+          <div class='button-circle'>
+            <img inline src='arrow-right.svg'>
+          </div>
+        </div>
         <div class='cover-left'>
           <div class='title-wrap'>
-            <img inline src='science-etc_palette.svg'>
-          </div> 
+            <img inline src='science-etc.svg'>
+          </div>
         </div>
         <div class='cover-right'>
           <div class='details'>
             <a href='https://pudding.cool/'><img inline src='pudding/wordmark.svg'></a>
-            <p>{{{doc.about}}}</p>            
+            <p>{{{doc.about}}}</p>
             <div class='weeks'>
-              <div class='week-previous'>
-                <p class='date-week-1'>Part 1</p>
-                <p class='topic'>
-                    <a href='https://pudding.cool/2019/05/science_etc_1/'><img id='hover-hand' inline src='pointer_hand_grey.svg'></a>
-                    <a href='https://pudding.cool/2019/05/science_etc_1/'>Reproducibility</a>
-                </p>                
-              </div>
-            <div class='week-current'>
+              <a href='https://pudding.cool/2019/05/science_etc_1/'>
+                <div class='week week-previous'>
+                  <p class='date-week-1'>Part 1</p>
+                  <p class='topic'>Reproducibility</p>
+                </div>
+              </a>
+            <div class='week week-current'>
                 <p class='date-week-2'>Part 2</p>
-                <p class='topic'>Vaccines</p>                
+                <p class='topic'>Vaccines</p>
               </div>
               <div class='author-box'>
                     <p class='author-para'>By
@@ -56,22 +50,12 @@
               </div>
             </div>
           </div>
-          
-
-          <div class='arrow-cover'>
-            <div class='pulse-circle'></div>
-            <div class='button-circle'>
-              <img inline src='arrow-right.svg'>
-            </div>
-          </div>
         </div>
 
 
 
     </div>
-    
+
 
 
 </div>
-
-   

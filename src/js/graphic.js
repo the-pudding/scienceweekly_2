@@ -18,7 +18,8 @@ let mergedData;
 let annotations;
 
 // Dimensions
-let margin = {'left':100, 'right':200, 'top':100, 'bottom':100};
+// let margin = {'left':100, 'right':200, 'top':120, 'bottom':100};
+let margin = {'left':10, 'right':10, 'top':10, 'bottom':10};
 let width;
 let height;
 let yScale;
@@ -37,7 +38,7 @@ let $buttonArrowBackIntro;
 let simulation;
 let $tooltip;
 
-let $body;  
+let $body;
 let $svg;
 let $timeline;
 let $timelineAxis;
@@ -53,13 +54,28 @@ const RAD_PAPER = 20;
 const RAD_ARTICLE = 5;
 const COL_PAPER = '#559DB9'
 const COL_ARTICLE = '#E17D7F'
+const $scrollhint = d3.select('.scroll-hint');
 
 
-// Tracking 
+// Tracking
 let slideCount = 0
 
 // Notes to self
 // - left margin set to 2x that of right margin atm
+
+function setNavigationFunctionality(){
+    $buttonArrowCover
+    .on('click', handleForwardClick)
+
+    $buttonArrowCopy
+        .on('click', handleForwardClick)
+
+    $buttonArrowBack
+        .on('click', handleBackClick)
+
+    $buttonArrowBackIntro
+        .on('click',handleBackClick)
+}
 
 
 function handleMouseEnter(d,i,n){
@@ -67,79 +83,122 @@ function handleMouseEnter(d,i,n){
     const introHeight = d3.select('div.intro').node().offsetHeight
     const htmlContents = d.data.type==='article' ? `<p class='sci-title'>${d.data.hed_main}</p><p class='sci-body'>${d.data.abstract.slice(0,200)}...</p>`: `<p class='sci-title'>${d.data.hed_main}</p><p class='sci-author'>${d.data.author}</p><p class='sci-body'>${d.data.abstract.slice(0,200)}...</p>`
 
+    d3.selectAll('.paper').classed('faded', true)
+    d3.selectAll('.article').classed('faded', true)
+    d3.select(this).classed('highlight', true)
+
     $tooltip
         .classed('hidden',false)
-        .st('left',xCoord)
+        .st('left',xCoord + 20)
         .st('top',yCoord)
         .st('max-width', ()=>{return width>600 ? width/4 : width/3})        
         .html(htmlContents)
+
 }
 
 function handleMouseLeave(d){
     $tooltip.classed('hidden',true)
+
+    d3.selectAll('.paper').classed('faded', false)
+    d3.selectAll('.article').classed('faded', false)
+    d3.selectAll('.paper').classed('highlight', false)
+    d3.selectAll('.article').classed('highlight', false)
+}
+
+function scrollTo(element) {
+	window.scroll({
+		behavior: 'smooth',
+		left: 0,
+		top: element.offsetTop
+	});
 }
 
 function handleBackClick(){
-    if (slideCount === 1){
 
-        d3.select('.timeline-svg')
-        .st('display','none')
+  
+  const el = d3.select('#content').node();
+  scrollTo(el)
+
+  setTimeout(function() {
+    d3.select(`.timeline-intro`).classed('slide', false)
+  }, 300)
+
+  setTimeout(function() {
+    $coverRight.classed('slide', false)
+    $coverLeft.classed('slide', false)
+    $scrollhint.classed('is-visible', true)
+  }, 800)
+
+  $buttonArrowCover.st('display','flex')
+  d3.select(`.intro`).st('display','block')
+  d3.select(`.timeline-intro`).st('display','block')
+  d3.select('body').st('overflow', 'hidden')
+  slideCount-=2
+// Start of my commented code
+//     if (slideCount === 1){
+
+//         d3.select('.timeline-svg')
+//         .st('display','none')
              
-        $coverRight.classed('slide', false)
-        $coverLeft.classed('slide', false)
-        d3.select(`.cover-container`).st('display','flex')   
-        d3.select(`.intro`).st('display','block')  
-        $footer.classed('hidden',true)
-        slideCount-=1        
+//         $coverRight.classed('slide', false)
+//         $coverLeft.classed('slide', false)
+//         d3.select(`.cover-container`).st('display','flex')   
+//         d3.select(`.intro`).st('display','block')  
+//         $footer.classed('hidden',true)
+//         slideCount-=1        
         
-        // d3.select(`.slide-${slideCount}`).st('display','block')   
-        // d3.select(`.slide-${slideCount}`).classed('hidden',false)    
+//         // d3.select(`.slide-${slideCount}`).st('display','block')   
+//         // d3.select(`.slide-${slideCount}`).classed('hidden',false)    
             
-    }
-    else if (slideCount === 2){
+//     }
+//     else if (slideCount === 2){
         
-        d3.select(`.timeline-svg`).st('display','none')
-        d3.select(`.timeline-intro`).st('display','block')
-        $footer.classed('hidden',true)
-        slideCount-=1 
-    }
+//         d3.select(`.timeline-svg`).st('display','none')
+//         d3.select(`.timeline-intro`).st('display','block')
+//         $footer.classed('hidden',true)
+//         slideCount-=1 
+//     }
+//   END of my commented code
+
 }
 
 function handleForwardClick(){
-
+    // console.log(slideCount)
     if (slideCount === 0){
-        d3.select('.timeline-svg')
-        .st('display','none')
-             
+        //d3.select('.timeline-svg').st('display','none')
+
         $coverRight.classed('slide', true)
         $coverLeft.classed('slide', true)
-        d3.select(`.cover-container`).st('display','none')   
-        d3.select(`.intro`).st('display','none')  
-        slideCount+=1        
-        
-        // d3.select(`.slide-${slideCount}`).st('display','block')   
-        // d3.select(`.slide-${slideCount}`).classed('hidden',false)    
-            
+        //d3.select(`.intro`).st('display','none')
+        slideCount+=1
     }
-    else if (slideCount === 1){
-        
+    else {
+        $buttonArrowCover.st('display','none')
         d3.select(`.timeline-svg`).st('display','block')
-        d3.select(`.timeline-intro`).st('display','none')
-        $footer.classed('hidden',false)
-        slideCount+=1 
-    }
+        d3.select(`.timeline-intro`).classed('slide', 'true')
+        d3.select(`.intro`).st('display','none')
+        slideCount+=1
+// //         START of my edited code
+//         d3.select(`.timeline-intro`).st('display','none')
+//         $footer.classed('hidden',false)
+//         slideCount+=1 
+//     }
+//           END of my edited code
 
+        d3.select('body').st('overflow', 'auto')
+    }
 }
 
 
 function createSimulation(){
 
     function setForceX(type){
-        if (type==='article') return width/1.98
-        return width/2.02
+        // if (type==='article') return width/1.98
+        // return width/2.02
+        return width/2
     }
 
-    simulation = d3.forceSimulation(mergedData)        
+    simulation = d3.forceSimulation(mergedData)
     .force('x', d3.forceX(d=>setForceX(d.type)))
     .force('y', d3.forceY(d=> yScale(d.date)).strength(1))
     .force('collide', d3.forceCollide(function(d){
@@ -148,13 +207,13 @@ function createSimulation(){
     .stop();
 
     for (var i = 0; i < 220; ++i) simulation.tick();
-    
+
 }
 
 function createTimelineAnnotations(mergedData){
 
     function removeOverlap(title){
-        if(title==='The end: noautism/vaccine link')return -60
+        if(title==='The end: no autism/vaccine link')return -60
         if(title==='In America...') return 200
         if(title==='Study retracted') return 100
         if(title==='Measles in US') return -100
@@ -164,17 +223,19 @@ function createTimelineAnnotations(mergedData){
 
     const annotationItemsOnly = mergedData.filter(item=>item.annotation);
 
+    let widthWrap = d3.select('body').node().offsetWidth;
+
     const annotationsFormatted= annotationItemsOnly.map((item, index)=>{
         
         const annotationObject = {}
-                
+
         annotationObject['className'] = `anno-${item.type}`;
 
         annotationObject['note'] = {
             label: item.annotation,
             title: item.anno_title,
             bgPadding: {"top":15,"left":10,"right":10,"bottom":10},
-            wrap: width > 600 ? 400 : 200       
+            wrap: width > 600 ? widthWrap/4 : 200       
         }
 
         annotationObject['data'] = {
@@ -182,9 +243,10 @@ function createTimelineAnnotations(mergedData){
             x: item.x,
             r: item.type ==='article'? RAD_ARTICLE : RAD_PAPER
         }
-        
+
         annotationObject['dx'] = index%2 ? -200 : 100;
         annotationObject['dy'] = removeOverlap(item.anno_title);
+
 
         return annotationObject
     })
@@ -217,9 +279,8 @@ function createTimelineAnnotations(mergedData){
 function generateAnnotations(){
 
     const type = d3.annotationCallout
-    
-    const parseTime = d3.timeParse("%d-%b-%y");
 
+    const parseTime = d3.timeParse("%d-%b-%y");
     const makeAnnotations = d3.annotation()
         .editMode(false)
         //also can set and override in the note.padding property
@@ -230,7 +291,10 @@ function generateAnnotations(){
         //if using x, y in annotations JSON
         .accessors({
         x: d => width/2,
-        y: d => yScale(d.date)
+        y: d => {
+            
+            return yScale(d.date)
+        }
         })
         // .accessorsInverse({
         // date: d => timeFormat(x.invert(d.x)),
@@ -245,11 +309,17 @@ function generateAnnotations(){
 
     d3.selectAll('.anno-article')
         .select('.annotation-note-title')
-        .st('fill', '#559DB9')
+        .st('fill', '#34A29E')
 
     d3.selectAll('.anno-paper')
         .select('.annotation-note-title')
-        .st('fill', '#E17D7F')
+        .st('fill', '#ff533d')
+
+    d3.selectAll('.connector')
+        .st('stroke', '#c9c9c9')
+
+    d3.selectAll('.note-line')
+        .st('stroke', '#c9c9c9')
 }
 
 
@@ -263,10 +333,11 @@ function cleanArticleData(dirtyData){
         yearMonth: `${item.formatted_pub_date.split('/')[0]}-${item.formatted_pub_date.split('/')[1]}`,        
     })).sort(sort.sortDatesYearMonth)
 
+
     const filteredPropertiesData = addedPropertiesData.filter(item=> (item.keywords !== '[]') && (item.type_of_material !== 'Correction') && (item.print_page !== '') && (item.source !== 'International Herald Tribune')&& (item.type === 'article'))
 
     // eslint-disable-next-line no-restricted-syntax
-    for (const article of filteredPropertiesData){    
+    for (const article of filteredPropertiesData){
         delete article.filename;
         delete article.keywords;
         delete article.multimedia;
@@ -277,8 +348,8 @@ function cleanArticleData(dirtyData){
         delete article.type_of_material;
         delete article.uri;
         delete article.word_count;
-        delete article.blog;         
-        // delete article.byline;   
+        delete article.blog;
+        // delete article.byline;
         delete article.headline;
         delete article.print_page;
         delete article.source;
@@ -301,18 +372,6 @@ function cleanPaperData(dirtyPaperData){
 }
 
 
-function mergeData(dataset1, dataset2){
-    const combinedDataSet = []
-
-    for (const item of dataset1)
-        combinedDataSet.push(item)
-    
-    for (const item of dataset2)
-        combinedDataSet.push(item)
-    
-    return combinedDataSet
-}
-
 function resize() {
 
     width = $body.node().offsetWidth;
@@ -320,21 +379,23 @@ function resize() {
 
     $svg.at('width', width)
         .at('height', height)
-    
+
     yScale = d3.scaleTime()
         .domain([(new Date('1990-01-01')),(new Date('2019-10-15'))])
         .range([margin.top, height-margin.bottom]);
 
 }
 
-function setupDOM() {   
+
+function setupDOM() { 
     $footer=d3.select('.pudding-footer')
+
     $coverRight = d3.select('.cover-right')
     $coverLeft = d3.select('.cover-left')
     $body = d3.select('body');
     $svg = d3.select('svg.timeline-svg')
-    $timeline = $svg.append('g.timeline-g')   
-    $tooltip = d3.select('.tooltip')  
+    $timeline = $svg.append('g.timeline-g')
+    $tooltip = d3.select('.tooltip')
     $buttonArrowCover = d3.select('.arrow-cover')
     $buttonArrowCopy = d3.select('.arrow-intro-text')
     $buttonArrowBack = d3.select('.arrow-up-svg')
@@ -342,7 +403,7 @@ function setupDOM() {
 }
 
 
-function render() {  
+function render() {
 
   generateAnnotations()
 
@@ -354,22 +415,38 @@ function render() {
         .at('x1', width/2)
         .at('y1', margin.top)
         .at('x2', width/2)
-        .at('y2', height-margin.bottom); 
+        .at('y2', height-margin.bottom);
 
-    $timelineAxis =  $timeline.append('g.timeline-axis')        
+    $timelineAxis =  $timeline.append('g.timeline-axis')
     $timelineCirclesG = $timelineAxis.append('g.timeline-circle-g')
+
+    console.log(mergedData)
 
     articlesJoin = $timelineCirclesG
         .selectAll('g.cells')
         .data(
             d3.voronoi()
             .extent([[-margin.left, -margin.top], [width + margin.right, height + margin.top]])
-            .x(d=> d.x)
-            .y(d=> d.y)
+            .x(d=> {
+                console.log(`margin left: ${margin.left}`)
+                console.log(`margin top: ${margin.top}`)
+                console.log(`margin bottom: ${margin.bottom}`)
+                console.log(`margin right: ${margin.right}`)
+                console.log(`width: ${width}`)
+                console.log(`height: ${height}`)
+                console.log(`extent: [[${-margin.left},${-margin.top}],[${width + margin.right},${height + margin.top}]]`)
+            
+                 d.type==='paper'? console.log(d.x): console.log('article')
+                 return (d.x< width + margin.right) && (d.x>-margin.left)? d.x : 0;
+            })
+            .y(d=> {
+                d.type==='paper'? console.log(d.y): console.log('article')
+                return (d.y< height + margin.top) && (d.y>-margin.top)? d.y : 0;
+            })
             .polygons(mergedData)
         )
         .enter()
-    
+
     $articleCells = articlesJoin
         .append('g.cells')
 
@@ -384,9 +461,10 @@ function render() {
         })
         .on('click', d => {
             d.data.type==='article' ? window.open(d.data.web_url) : window.open(d.data.link)
-        })    
+        })
         .on('mousemove',handleMouseEnter)
         .on('mouseleave',handleMouseLeave)
+
 
     $timelineAxisBackground =  $timelineAxis.append('g.timeline-axis-background')
     $timelineAxisForeground =  $timelineAxis.append('g.timeline-axis-foreground')
@@ -402,44 +480,49 @@ function render() {
         .at('transform',`translate(${width/2},0)`)
         .call(
             d3.axisLeft(yScale)
-            .ticks(d3.timeYear)                   
+            .ticks(d3.timeYear)
         )
-        
+
     $timelineAxisForeground
         .selectAll('.tick')
         .select('text')
-        .st('fill', '#AFAFAF')
-    
+        .st('fill', '#c9c9c9')
+
     $timelineAxis
         .selectAll('g.tick')
         .st('font-size', '16px')
-        
-    
+
+
     $timelineAxisBackground
         .selectAll('g.tick')
         .selectAll('text')
-        .st('stroke','#404153')
+        .st('stroke','#282828')
         .st('stroke-width', '2')
+
+    setNavigationFunctionality()
     
-    
-    $buttonArrowCover 
-        .on('click', handleForwardClick)
+//     $svg.st('display','none')
+//     $footer.classed('hidden',true)
 
-    $buttonArrowCopy
-        .on('click', handleForwardClick)
+    // Testing circle issues
+    // const middle = d3.select('svg.timeline-svg').at('width')
 
-    $buttonArrowBack
-        .on('click', handleBackClick)
-    
-    $buttonArrowBackIntro
-        .on('click',handleBackClick)
+    // d3.select('.timeline-svg')
+    // .append('circle.test-circle')
+    // .at('cx',+middle/2)
+    // .at('cy',2400)
+    // .at('r',500).st('fill','pink')
+}
 
-
-    $svg.st('display','none')
-    $footer.classed('hidden',true)
+window.onscroll = function() {
+	if ($scrollhint.classed('is-visible') === true) {
+		$scrollhint.classed('is-visible', false)
+	}
 }
 
 function init() {
+    setupDOM();
+
   return new Promise((resolve, reject) => {
 
     const articlesFile = 'assets/data/nyt_vaccine_autism_monthly_v2.csv';
@@ -458,12 +541,12 @@ function init() {
         articleData = response[0];
         paperData = response[1]
 
-        cleanedArticleData = cleanArticleData(articleData)    
+        cleanedArticleData = cleanArticleData(articleData)
         cleanedPaperData = cleanPaperData(paperData);
-        mergedData = mergeData(cleanedArticleData,cleanedPaperData)        
+        mergedData = cleanedArticleData.concat(cleanedPaperData)
         timelineAnnotationList = createTimelineAnnotations(mergedData)
+
         
-        setupDOM();
         resize();    
         createSimulation()        
         timelineAnnotationList.forEach((item,index)=>{
@@ -480,7 +563,9 @@ function init() {
             }
             else{item.x=originalXCoord}            
         })
+
         render();
+        
       }
     });
   });

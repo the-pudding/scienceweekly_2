@@ -1,17 +1,30 @@
 /* CUSTOM STORY STYLE */
 
-html 
-    background-color: #404153
+html
+    background-color: $off-black
+    //scroll-behavior smooth
 #content
-    background-color #404153
+    background-color $off-black
+
+.timeline-box
+  padding 1rem 1rem 5rem 1rem
 
 .timeline-intro
     position: absolute;
     width: 100%;
     height: 100vh;
-    z-index: 1000;    
-    background: #404153
+    z-index: 1000;
+    background-image url('assets/images/docs.jpg')
+    background-repeat repeat-x
+    background-size auto 100%
+    background-position center
     color #fff
+    transform translateX(0)
+    transform translateY(0)
+    transition transform 200ms ease-in-out
+
+    &.slide
+      transform translateY(-150%)
 
 
 .timeline-svg-box
@@ -19,14 +32,45 @@ html
     flex-direction: row
     justify-content: center
 
+    .arrow-up-svg
+      position fixed
+      padding 1rem 0
+      width 100%
+      height 5.5rem
+      background-color rgba($black, 0.4)
+      display flex
+
+      p
+        margin 0
+        font-family $sans
+        set-type-size('x-small', true)
+        text-transform uppercase
+        color $off-white
+        font-weight 700
+
+      .button-circle
+        background-color transparent
+        border 2px solid $off-white
+        width 2rem
+        height 2rem
+        margin-top 1.5rem
+
+        &:hover
+          background-color rgba($white, 0.2)
+
+        svg
+          stroke-width 2px
+          stroke $off-white
+
 // .timeline-svg
     // display none
 
 .tooltip
     position: absolute
     pointer-events: none
-    background-color: #313240
-    color white
+    background-color: $white
+    box-shadow 0px 4px 4px rgba(0, 0, 0, 0.25)
+    color $off-black
     padding 0 1em
     font-family: $sans
     p
@@ -34,7 +78,8 @@ html
 
 .sci-title
     text-transform: uppercase
-    
+    font-weight 700
+
 
 // .sci-author
 
@@ -57,17 +102,65 @@ html
         visibility: hidden
 
 .paper
-    fill #E17D7F
+    fill $red
 
 .article
-    fill #559DB9
+    fill $teal
+
+.faded
+  opacity 0.3
+
+.highlight
+  opacity 1
+  stroke $white
+  stroke-width 2px
 
 .annotation-note-label
     fill #FFF
+    font-size 12px
+    +mq('bp-3')
+        set-type-size('root', true)
+
+// .annotation-note-title
+//   font-family $sans
+//   set-type-size('large', true)
 
 circle
     stroke #000
     cursor pointer
+
+
+.scroll-hint
+  position fixed
+  display flex
+  bottom 0.5rem
+  right 1rem
+  visibility hidden
+  &.is-visible
+    visibility visible
+
+  p
+    color $red
+    font-family $national
+    margin 0.5rem 0
+    set-type-size('small', true)
+    font-weight 700
+    text-transform uppercase
+
+  svg
+    stroke $red
+    stroke-width 2px
+    margin 0.5rem 0 0 0.15rem
+    animation bounceUp 1s infinite
+    position relative
+    bottom 0
+
+@keyframes bounceUp {
+  0%       { bottom:1px; }
+  25%, 75% { bottom:2px; }
+  50%      { bottom:3px; }
+  100%     { bottom:0; }
+}
 
 .conclusion 
     margin 5rem auto 0 auto
@@ -94,4 +187,5 @@ circle
     .method-title
         font-weight 800
         
+
 
