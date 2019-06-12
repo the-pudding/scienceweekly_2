@@ -16,6 +16,8 @@ let paperData;
 let cleanedPaperData;
 let mergedData;
 let annotations;
+const parseDatePaper = d3.timeParse("%Y_%m_%d");
+const parseDateArticle = d3.timeParse("%Y/%m/%d");
 
 // Dimensions
 // let margin = {'left':100, 'right':200, 'top':120, 'bottom':100};
@@ -208,9 +210,12 @@ function createSimulation(){
 
     for (var i = 0; i < 220; ++i) simulation.tick();
 
+    console.log(mergedData)
 }
 
 function createTimelineAnnotations(mergedData){
+
+    let widthWrap = d3.select('body').node().offsetWidth;
 
     function removeOverlap(title){
         if(title==='The end: no autism/vaccine link')return -60
@@ -221,9 +226,19 @@ function createTimelineAnnotations(mergedData){
         return 0 
     }
 
+    function setXOffset(i){
+        if (widthWrap>600){
+            return i%2 ? -200 : 100
+        }
+        else{
+            return i%2 ? -25 : 21
+        }
+    }
+
+    
     const annotationItemsOnly = mergedData.filter(item=>item.annotation);
 
-    let widthWrap = d3.select('body').node().offsetWidth;
+    
 
     const annotationsFormatted= annotationItemsOnly.map((item, index)=>{
         
@@ -234,8 +249,8 @@ function createTimelineAnnotations(mergedData){
         annotationObject['note'] = {
             label: item.annotation,
             title: item.anno_title,
-            bgPadding: {"top":15,"left":10,"right":10,"bottom":10},
-            wrap: width > 600 ? widthWrap/4 : 200       
+            bgPadding: {"top":0,"left":0,"right":0,"bottom":0},
+            wrap: width > 600 ? widthWrap/4 : widthWrap/3.3     
         }
 
         annotationObject['data'] = {
@@ -244,7 +259,7 @@ function createTimelineAnnotations(mergedData){
             r: item.type ==='article'? RAD_ARTICLE : RAD_PAPER
         }
 
-        annotationObject['dx'] = index%2 ? -200 : 100;
+        annotationObject['dx'] = setXOffset(index);
         annotationObject['dy'] = removeOverlap(item.anno_title);
 
 
@@ -329,7 +344,7 @@ function cleanArticleData(dirtyData){
         year: +item.formatted_pub_date.split('/')[0],
         month: +item.formatted_pub_date.split('/')[1],
         day: +item.formatted_pub_date.split('/')[2],
-        date: new Date(item.formatted_pub_date),
+        date: new Date(parseDateArticle(item.formatted_pub_date)),
         yearMonth: `${item.formatted_pub_date.split('/')[0]}-${item.formatted_pub_date.split('/')[1]}`,        
     })).sort(sort.sortDatesYearMonth)
 
@@ -361,12 +376,26 @@ function cleanArticleData(dirtyData){
 
 
 function cleanPaperData(dirtyPaperData){
+
+    
+
     const cleanedPaperData = dirtyPaperData.map(item=>({
         ...item,
         year: +item.pub_date.split('_')[0],
         month: +item.pub_date.split('_')[1],
-        date: new Date(`${+item.pub_date.split('_')[0]}-${+item.pub_date.split('_')[1]}`)
+        date: new Date(parseDatePaper(item.pub_date))
+        // date: new Date(`${+item.pub_date.split('_')[0]}-${+(item.pub_date.split('_')[1]).replace(/^0+/, '')}-${+(item.pub_date.split('_')[2]).replace(/^0+/, '')}`)
     }))
+
+    // cleanedPaperData.map(item=>{
+        
+        
+    //     console.log(`pub_date field: ${item.pub_date}`)
+    //     console.log(`date field ${item.date}`)
+    //     console.log(`pub_date PARSED field: ${parseTimetest(item.pub_date)}`)
+        
+        
+    // })
 
     return cleanedPaperData.filter(paper=>(paper.grouping==='aap_cochrane')||(paper.grouping==='original'))
 }
@@ -381,7 +410,7 @@ function resize() {
         .at('height', height)
 
     yScale = d3.scaleTime()
-        .domain([(new Date('1990-01-01')),(new Date('2019-10-15'))])
+        .domain([(new Date(1990,1,1)),(new Date(2019,10,15))])
         .range([margin.top, height-margin.bottom]);
 
 }
@@ -420,7 +449,7 @@ function render() {
     $timelineAxis =  $timeline.append('g.timeline-axis')
     $timelineCirclesG = $timelineAxis.append('g.timeline-circle-g')
 
-    console.log(mergedData)
+    // console.log(mergedData)
 
     articlesJoin = $timelineCirclesG
         .selectAll('g.cells')
@@ -428,19 +457,22 @@ function render() {
             d3.voronoi()
             .extent([[-margin.left, -margin.top], [width + margin.right, height + margin.top]])
             .x(d=> {
-                console.log(`margin left: ${margin.left}`)
-                console.log(`margin top: ${margin.top}`)
-                console.log(`margin bottom: ${margin.bottom}`)
-                console.log(`margin right: ${margin.right}`)
-                console.log(`width: ${width}`)
-                console.log(`height: ${height}`)
-                console.log(`extent: [[${-margin.left},${-margin.top}],[${width + margin.right},${height + margin.top}]]`)
+                // console.log(`margin left: ${margin.left}`)
+                // console.log(`margin top: ${margin.top}`)
+                // console.log(`margin bottom: ${margin.bottom}`)
+                // console.log(`margin right: ${margin.right}`)
+                // console.log(`width: ${width}`)
+                // console.log(`height: ${height}`)
+                // console.log(`extent: [[${-margin.left},${-margin.top}],[${width + margin.right},${height + margin.top}]]`)
             
-                 d.type==='paper'? console.log(d.x): console.log('article')
+                //  d.type==='paper'? console.log(d.x): console.log('article')
+
+
                  return (d.x< width + margin.right) && (d.x>-margin.left)? d.x : 0;
             })
             .y(d=> {
-                d.type==='paper'? console.log(d.y): console.log('article')
+                // d.type==='paper'? console.log(d.y): console.log('article')
+
                 return (d.y< height + margin.top) && (d.y>-margin.top)? d.y : 0;
             })
             .polygons(mergedData)
@@ -450,11 +482,13 @@ function render() {
     $articleCells = articlesJoin
         .append('g.cells')
 
+        console.log(yScale.domain())
+    
     $articleCircles = $articleCells
         .append('circle')
         .at('class', d=> d.data.type)
         .at('cx', d=>d.data.x)
-        .at('cy', d=>d.data.y)
+        .at('cy', d=> d.data.y)
         .at('r', function(d){
             if (d.data.type==='article') return RAD_ARTICLE;
             return RAD_PAPER
