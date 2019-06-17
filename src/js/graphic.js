@@ -41,6 +41,10 @@ let $buttonArrowBack;
 
 let simulation;
 let $tooltip;
+let $tooltipTitle;
+let $tooltipAuthor;
+let $tooltipBody;
+let $tooltipLink;
 
 let $body;
 let $svgBox;
@@ -82,21 +86,55 @@ function setNavigationFunctionality(){
 
 
 function handleMouseEnter(d,i,n){
-    const [xCoord,yCoord] = d3.mouse(this)
-    const introHeight = d3.select('div.intro').node().offsetHeight
-    const htmlContents = d.data.type==='article' ? `<p class='sci-title'>${d.data.hed_main}</p><p class='sci-body'>${d.data.abstract.slice(0,200)}...</p>`: `<p class='sci-title'>${d.data.hed_main}</p><p class='sci-author'>${d.data.author}</p><p class='sci-body'>${d.data.abstract.slice(0,200)}...</p>`
 
-    d3.selectAll('.paper').classed('faded', true)
-    d3.selectAll('.article').classed('faded', true)
-    d3.select(this).classed('highlight', true)
-
-    $tooltip
-        .classed('hidden',false)
-        .st('left',xCoord + 20)
-        .st('top',yCoord)
-        .st('max-width', ()=>{return width>600 ? width/4 : width/3})        
-        .html(htmlContents)
-
+    if (width>600){
+        const [xCoord,yCoord] = d3.mouse(this)
+        const introHeight = d3.select('div.intro').node().offsetHeight
+        const htmlContents = d.data.type==='article' ? `<p class='sci-title'>${d.data.hed_main}</p><p class='sci-body'>${d.data.abstract.slice(0,200)}...</p>`: `<p class='sci-title'>${d.data.hed_main}</p><p class='sci-author'>${d.data.author}</p><p class='sci-body'>${d.data.abstract.slice(0,200)}...</p>`
+    
+        d3.selectAll('.paper').classed('faded', true)
+        d3.selectAll('.article').classed('faded', true)
+        d3.select(this).classed('highlight', true)
+    
+        $tooltip
+            .classed('hidden',false)
+            .st('left',xCoord + 20)
+            .st('top',yCoord)
+            .st('max-width', ()=>{return width>600 ? width/4 : width/3})        
+            .html(htmlContents)
+    }
+    else{
+        if(d.data.type==='article'){             
+            $tooltipTitle.text(d.data.hed_main);
+            $tooltipAuthor.classed('hidden',true)
+            $tooltipBody.text(`${d.data.abstract.slice(0,200)}...`)
+            $tooltipLink.on('click',()=>{
+                console.log(d.data)
+                window.open(d.data.web_url)
+            })
+        }
+        else{
+            $tooltipTitle.text(d.data.hed_main);            
+            $tooltipAuthor.text(d.data.author)
+            $tooltipBody.text(`${d.data.abstract.slice(0,200)}...`)
+            $tooltipLink.on('click',()=>{
+                window.open(d.data.link)
+            })
+        }
+        const [xCoord,yCoord] = d3.mouse(this)
+    
+        d3.selectAll('.paper').classed('faded', true)
+        d3.selectAll('.article').classed('faded', true)
+        d3.select(this).classed('highlight', true)
+    
+        $tooltip
+            .classed('hidden',false)
+            .st('left',(width*0.1))
+            .st('top',yCoord)
+            .st('max-width', ()=>{return 0.8*width})
+            .on('click', handleMouseLeave)    
+            
+    }
 }
 
 function handleMouseLeave(d){
@@ -556,7 +594,14 @@ function setupDOM() {
     $svgBox = $body.select('.timeline-box')
     $svg = d3.select('svg.timeline-svg')
     $timeline = $svg.append('g.timeline-g')
+
     $tooltip = d3.select('.tooltip')
+    $tooltipTitle =d3.select('.sci-title')
+    $tooltipAuthor = d3.select('.sci-author')
+    $tooltipBody = d3.select('.sci-body')
+    $tooltipLink = d3.select('.sci-link')
+
+  
     $buttonArrowCover = d3.select('.arrow-cover')
     $buttonArrowCopyForward = d3.selectAll('.arrow-intro-text-down')
     $buttonArrowBack = d3.selectAll('.arrow-intro-text-up')
@@ -618,7 +663,12 @@ function render() {
             return RAD_PAPER
         })
         .on('click', d => {
-            d.data.type==='article' ? window.open(d.data.web_url) : window.open(d.data.link)
+            if(width<600){
+                handleMouseEnter
+            }
+            else{
+                d.data.type==='article' ? window.open(d.data.web_url) : window.open(d.data.link)
+            }            
         })
         .on('mousemove',handleMouseEnter)
         .on('mouseleave',handleMouseLeave)
@@ -662,6 +712,15 @@ function render() {
     $svgBox.classed('hidden',true)
     $footer.classed('hidden',true)
     
+
+    if (width<600){
+        $timeline.on('click',handleMouseLeave)
+        $timelineAxis.on('click',handleMouseLeave)
+        $timelineAxisBackground.on('click',handleMouseLeave)
+        $timelineAxisForeground.on('click',handleMouseLeave)
+        $svg.on('click',handleMouseLeave)
+        d3.selectAll('.annotation').on('click',handleMouseLeave)
+    }
 //     $svg.st('display','none')
 //     $footer.classed('hidden',true)
 
