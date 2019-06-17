@@ -36,9 +36,8 @@ let $coverRight;
 let $coverLeft;
 let $introCopy1;
 let $buttonArrowCover;
-let $buttonArrowCopyDown;
+let $buttonArrowCopyForward;
 let $buttonArrowBack;
-let $buttonArrowBackIntro;
 
 let simulation;
 let $tooltip;
@@ -73,14 +72,12 @@ function setNavigationFunctionality(){
     $buttonArrowCover
     .on('click', handleForwardClick)
 
-    $buttonArrowCopyDown
+    $buttonArrowCopyForward
         .on('click', handleForwardClick)
 
     $buttonArrowBack
         .on('click', handleBackClick)
 
-    $buttonArrowBackIntro
-        .on('click',handleBackClick)
 }
 
 
@@ -132,6 +129,9 @@ function handleBackClick(){
 
         slideCount-=1
         console.log(slideCount)
+
+        $buttonArrowCopyForward.classed('hidden',true)
+        $buttonArrowBack.classed('hidden',true)
     }
     if(slideCount===2){
         
@@ -140,6 +140,9 @@ function handleBackClick(){
         d3.selectAll('.slide-1').classed('hidden',false)
         slideCount-=1
         console.log(slideCount)
+
+        $buttonArrowCopyForward.classed('hidden',false)
+        $buttonArrowBack.classed('hidden',false)
     }
     if(slideCount===3){
         
@@ -148,6 +151,9 @@ function handleBackClick(){
         d3.selectAll('.slide-2').classed('hidden',false)
         slideCount-=1
         console.log(slideCount)
+
+        $buttonArrowCopyForward.classed('hidden',false)
+        $buttonArrowBack.classed('hidden',false)
     }
   if(slideCount===4){
         $svgBox.classed('hidden', true)
@@ -156,6 +162,9 @@ function handleBackClick(){
         d3.selectAll('.slide-3').classed('hidden',false)
         slideCount-=1
         console.log(slideCount)
+
+        $buttonArrowCopyForward.classed('hidden',false)
+        $buttonArrowBack.classed('hidden',false)
   }
 
 
@@ -232,6 +241,10 @@ function handleForwardClick(){
         console.log(slideCount)
         $svgBox.classed('hidden',true)
         $footer.classed('hidden',true)
+
+
+        $buttonArrowCopyForward.classed('hidden',false)
+        $buttonArrowBack.classed('hidden',false)
     }
     else if (slideCount === 1){
         d3.selectAll('end').classed('hidden',true)
@@ -245,6 +258,9 @@ function handleForwardClick(){
         console.log(slideCount)
         $svgBox.classed('hidden',true)
         $footer.classed('hidden',true)
+
+        $buttonArrowCopyForward.classed('hidden',false)
+        $buttonArrowBack.classed('hidden',false)
     }
     else if (slideCount === 2){
         d3.selectAll('end').classed('hidden',true)
@@ -258,6 +274,9 @@ function handleForwardClick(){
         console.log(slideCount)
         $svgBox.classed('hidden',true)
         $footer.classed('hidden',true)
+
+        $buttonArrowCopyForward.classed('hidden',false)
+        $buttonArrowBack.classed('hidden',false)
         
     }
     else {
@@ -273,8 +292,8 @@ function handleForwardClick(){
         d3.selectAll('.timeline-intro')
         .classed('hidden', true)
 
-        d3.select('.arrow-back-to-intro')
-        .classed('hidden',false)
+        $buttonArrowCopyForward.classed('hidden',true)
+        $buttonArrowBack.classed('hidden',false)
 
         slideCount+=1
         console.log(slideCount)
@@ -539,9 +558,9 @@ function setupDOM() {
     $timeline = $svg.append('g.timeline-g')
     $tooltip = d3.select('.tooltip')
     $buttonArrowCover = d3.select('.arrow-cover')
-    $buttonArrowCopyDown = d3.selectAll('.arrow-intro-text-down')
+    $buttonArrowCopyForward = d3.selectAll('.arrow-intro-text-down')
     $buttonArrowBack = d3.selectAll('.arrow-intro-text-up')
-    $buttonArrowBackIntro = d3.select('.arrow-up-intro')
+    
 }
 
 
