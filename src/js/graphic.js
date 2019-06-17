@@ -1,3 +1,6 @@
+/* eslint-disable no-lonely-if */
+/* eslint-disable no-else-return */
+/* eslint-disable no-console */
 /* eslint-disable func-names */
 /* eslint-disable no-var */
 /* eslint-disable no-unused-vars */
@@ -33,7 +36,7 @@ let $coverRight;
 let $coverLeft;
 let $introCopy1;
 let $buttonArrowCover;
-let $buttonArrowCopy;
+let $buttonArrowCopyDown;
 let $buttonArrowBack;
 let $buttonArrowBackIntro;
 
@@ -41,6 +44,7 @@ let simulation;
 let $tooltip;
 
 let $body;
+let $svgBox;
 let $svg;
 let $timeline;
 let $timelineAxis;
@@ -69,7 +73,7 @@ function setNavigationFunctionality(){
     $buttonArrowCover
     .on('click', handleForwardClick)
 
-    $buttonArrowCopy
+    $buttonArrowCopyDown
         .on('click', handleForwardClick)
 
     $buttonArrowBack
@@ -116,26 +120,65 @@ function scrollTo(element) {
 }
 
 function handleBackClick(){
+    if(slideCount===1){
+        
+        d3.select('.arrow-back-to-intro').classed('hidden',true)
+        d3.selectAll('.timeline-intro').classed('hidden',true)
 
-  
-  const el = d3.select('#content').node();
-  scrollTo(el)
+        d3.select('.intro')
+        .classed('hidden', false)
+        d3.select('.cover-container')
+        .classed('hidden',false)
 
-  setTimeout(function() {
-    d3.select(`.timeline-intro`).classed('slide', false)
-  }, 300)
+        slideCount-=1
+        console.log(slideCount)
+    }
+    if(slideCount===2){
+        
+        d3.select(`.timeline-svg`).classed('hidden',true)
+        d3.selectAll('.timeline-intro').classed('hidden',true)
+        d3.selectAll('.slide-1').classed('hidden',false)
+        slideCount-=1
+        console.log(slideCount)
+    }
+    if(slideCount===3){
+        
+        d3.select(`.timeline-svg`).classed('hidden',true)
+        d3.selectAll('.timeline-intro').classed('hidden',true)
+        d3.selectAll('.slide-2').classed('hidden',false)
+        slideCount-=1
+        console.log(slideCount)
+    }
+  if(slideCount===4){
+        $svgBox.classed('hidden', true)
+        d3.select(`.timeline-svg`).classed('hidden',true)
+        d3.selectAll('.timeline-intro').classed('hidden',true)
+        d3.selectAll('.slide-3').classed('hidden',false)
+        slideCount-=1
+        console.log(slideCount)
+  }
 
-  setTimeout(function() {
-    $coverRight.classed('slide', false)
-    $coverLeft.classed('slide', false)
-    $scrollhint.classed('is-visible', true)
-  }, 800)
 
-  $buttonArrowCover.st('display','flex')
-  d3.select(`.intro`).st('display','block')
-  d3.select(`.timeline-intro`).st('display','block')
-  d3.select('body').st('overflow', 'hidden')
-  slideCount-=2
+else{}
+
+//   const el = d3.select('#content').node();
+//   scrollTo(el)
+
+//   setTimeout(function() {
+//     d3.select(`.timeline-intro`).classed('slide', false)
+//   }, 300)
+
+//   setTimeout(function() {
+//     $coverRight.classed('slide', false)
+//     $coverLeft.classed('slide', false)
+//     $scrollhint.classed('is-visible', true)
+//   }, 800)
+
+//   $buttonArrowCover.st('display','flex')
+//   d3.select(`.intro`).st('display','block')
+//   d3.select(`.timeline-intro`).st('display','block')
+//   d3.select('body').st('overflow', 'hidden')
+//   slideCount-=2
 // Start of my commented code
 //     if (slideCount === 1){
 
@@ -167,19 +210,74 @@ function handleBackClick(){
 function handleForwardClick(){
     // console.log(slideCount)
     if (slideCount === 0){
-        //d3.select('.timeline-svg').st('display','none')
+        
 
-        $coverRight.classed('slide', true)
-        $coverLeft.classed('slide', true)
-        //d3.select(`.intro`).st('display','none')
+        // $coverRight.classed('slide', true)
+        // $coverLeft.classed('slide', true)
+
+        d3.selectAll('end')
+        .classed('hidden',true)
+
+        d3.select('.intro')
+        .classed('hidden', true)
+
+        d3.select('.cover-container')
+        .classed('hidden',true)
+
+        d3.select('.slide-1')
+        .classed('hidden', false)
+    
+
         slideCount+=1
+        console.log(slideCount)
+        $svgBox.classed('hidden',true)
+        $footer.classed('hidden',true)
+    }
+    else if (slideCount === 1){
+        d3.selectAll('end').classed('hidden',true)
+        d3.selectAll('.timeline-intro')
+        .classed('hidden', true)
+
+        d3.select('.slide-2')
+        .classed('hidden', false)
+
+        slideCount+=1
+        console.log(slideCount)
+        $svgBox.classed('hidden',true)
+        $footer.classed('hidden',true)
+    }
+    else if (slideCount === 2){
+        d3.selectAll('end').classed('hidden',true)
+        d3.selectAll('.timeline-intro')
+        .classed('hidden', true)
+
+        d3.select('.slide-3')
+        .classed('hidden', false)
+
+        slideCount+=1
+        console.log(slideCount)
+        $svgBox.classed('hidden',true)
+        $footer.classed('hidden',true)
+        
     }
     else {
-        $buttonArrowCover.st('display','none')
+        d3.selectAll('end').classed('hidden',false)
+        $svgBox.classed('hidden',false)
+        $footer.classed('hidden',false)
+        // $buttonArrowCover.st('display','none')
         d3.select(`.timeline-svg`).st('display','block')
-        d3.select(`.timeline-intro`).classed('slide', 'true')
-        d3.select(`.intro`).st('display','none')
+        // d3.select(`.timeline-intro`).classed('slide', 'true')
+        // d3.select(`.intro`).st('display','none')
+
+
+        d3.selectAll('.timeline-intro')
+        .classed('hidden', true)
+
+        d3.select('.arrow-back-to-intro')
+        .classed('hidden',false)
+
         slideCount+=1
+        console.log(slideCount)
 // //         START of my edited code
 //         d3.select(`.timeline-intro`).st('display','none')
 //         $footer.classed('hidden',false)
@@ -216,31 +314,48 @@ function createSimulation(){
 function createTimelineAnnotations(mergedData){
 
     let widthWrap = d3.select('body').node().offsetWidth;
+    let maxX = widthWrap/2;
 
     function removeOverlap(title){
-        if(title==='The end: no autism/vaccine link')return -60
+        if(title==='The end: no autism/vaccine link')return 0
         if(title==='In America...') return 200
         if(title==='Study retracted') return 100
         if(title==='Measles in US') return -100
         if(title==='Presidential debates') return 200
+        if(title==='Political manipulation') return 100
         return 0 
     }
 
-    function setXOffset(i){
+    function setXOffset(i,itemX){
         if (widthWrap>600){
             return i%2 ? -200 : 100
         }
         else{
-            return i%2 ? -25 : 21
+            console.log(i%2)
+            if(i%2){
+
+                
+                let xMove = 0
+                let setLocation = (0.4*widthWrap)
+                xMove = -(itemX  - setLocation)
+                return xMove
+            }
+            // eslint-disable-next-line no-else-return
+            else{
+                
+                let xMove = 0
+                let setLocation = (0.61*widthWrap)
+                xMove = setLocation-itemX 
+                return xMove
+            }            
         }
     }
 
     
     const annotationItemsOnly = mergedData.filter(item=>item.annotation);
 
-    
-
     const annotationsFormatted= annotationItemsOnly.map((item, index)=>{
+        
         
         const annotationObject = {}
 
@@ -249,8 +364,9 @@ function createTimelineAnnotations(mergedData){
         annotationObject['note'] = {
             label: item.annotation,
             title: item.anno_title,
-            bgPadding: {"top":0,"left":0,"right":0,"bottom":0},
-            wrap: width > 600 ? widthWrap/4 : widthWrap/3.3     
+            bgPadding: {"top":15,"left":10,"right":20,"bottom":10},
+            wrap: widthWrap > 600 ? widthWrap/5 : widthWrap/4         
+                 
         }
 
         annotationObject['data'] = {
@@ -258,8 +374,8 @@ function createTimelineAnnotations(mergedData){
             x: item.x,
             r: item.type ==='article'? RAD_ARTICLE : RAD_PAPER
         }
-
-        annotationObject['dx'] = setXOffset(index);
+        console.log(item)
+        annotationObject['dx'] = setXOffset(index, item.x);
         annotationObject['dy'] = removeOverlap(item.anno_title);
 
 
@@ -269,17 +385,17 @@ function createTimelineAnnotations(mergedData){
     const annotationInsert1 = {}
     annotationInsert1['className']='anno-intro'
     annotationInsert1['note'] = {
-        label: 'Here’s a timeline of New York Times articles that mention a relationship between vaccines and autism in the same story, pre-1998.',
-        title: 'Before 1998',
+        label: 'Here’s a timeline of New York Times articles that mention a relationship between vaccines and autism in the same story in the 1990s.',
+        title: 'Historically...',
         bgPadding: {"top":15,"left":10,"right":10,"bottom":10},
-        wrap: 200       
+        wrap: widthWrap > 600 ? widthWrap/5 : widthWrap/3.3          
     }
     annotationInsert1['data'] = {
-        date: new Date('1990-01-01'),
+        date: new Date('1990-06-01'),
         x: width/2,
         r: 0
     }
-    annotationInsert1['dx'] = -10;
+    annotationInsert1['dx'] = -50;
     annotationInsert1['dy'] = 0;
 
 
@@ -300,7 +416,7 @@ function generateAnnotations(){
         .editMode(false)
         //also can set and override in the note.padding property
         //of the annotation object
-        .notePadding(15)
+        .notePadding(10)
         .type(type)
         //accessors & accessorsInverse not needed
         //if using x, y in annotations JSON
@@ -311,10 +427,6 @@ function generateAnnotations(){
             return yScale(d.date)
         }
         })
-        // .accessorsInverse({
-        // date: d => timeFormat(x.invert(d.x)),
-        // close: d => y.invert(d.y)
-        // })
         .annotations(timelineAnnotationList)
 
     d3.select("svg.timeline-svg")
@@ -410,7 +522,7 @@ function resize() {
         .at('height', height)
 
     yScale = d3.scaleTime()
-        .domain([(new Date(1990,1,1)),(new Date(2019,10,15))])
+        .domain([(new Date(1988,1,1)),(new Date(2019,10,15))])
         .range([margin.top, height-margin.bottom]);
 
 }
@@ -422,12 +534,13 @@ function setupDOM() {
     $coverRight = d3.select('.cover-right')
     $coverLeft = d3.select('.cover-left')
     $body = d3.select('body');
+    $svgBox = $body.select('.timeline-box')
     $svg = d3.select('svg.timeline-svg')
     $timeline = $svg.append('g.timeline-g')
     $tooltip = d3.select('.tooltip')
     $buttonArrowCover = d3.select('.arrow-cover')
-    $buttonArrowCopy = d3.select('.arrow-intro-text')
-    $buttonArrowBack = d3.select('.arrow-up-svg')
+    $buttonArrowCopyDown = d3.selectAll('.arrow-intro-text-down')
+    $buttonArrowBack = d3.selectAll('.arrow-intro-text-up')
     $buttonArrowBackIntro = d3.select('.arrow-up-intro')
 }
 
@@ -435,6 +548,7 @@ function setupDOM() {
 function render() {
 
   generateAnnotations()
+
 
   $timeline
         .append('line.time-axis')
@@ -457,15 +571,6 @@ function render() {
             d3.voronoi()
             .extent([[-margin.left, -margin.top], [width + margin.right, height + margin.top]])
             .x(d=> {
-                // console.log(`margin left: ${margin.left}`)
-                // console.log(`margin top: ${margin.top}`)
-                // console.log(`margin bottom: ${margin.bottom}`)
-                // console.log(`margin right: ${margin.right}`)
-                // console.log(`width: ${width}`)
-                // console.log(`height: ${height}`)
-                // console.log(`extent: [[${-margin.left},${-margin.top}],[${width + margin.right},${height + margin.top}]]`)
-            
-                //  d.type==='paper'? console.log(d.x): console.log('article')
 
 
                  return (d.x< width + margin.right) && (d.x>-margin.left)? d.x : 0;
@@ -534,6 +639,9 @@ function render() {
         .st('stroke-width', '2')
 
     setNavigationFunctionality()
+
+    $svgBox.classed('hidden',true)
+    $footer.classed('hidden',true)
     
 //     $svg.st('display','none')
 //     $footer.classed('hidden',true)
@@ -577,12 +685,13 @@ function init() {
 
         cleanedArticleData = cleanArticleData(articleData)
         cleanedPaperData = cleanPaperData(paperData);
-        mergedData = cleanedArticleData.concat(cleanedPaperData)
-        timelineAnnotationList = createTimelineAnnotations(mergedData)
+        mergedData = cleanedArticleData.concat(cleanedPaperData).sort(sort.sortDates)
+
 
         
         resize();    
         createSimulation()        
+        timelineAnnotationList = createTimelineAnnotations(mergedData)
         timelineAnnotationList.forEach((item,index)=>{
             const matchedItem = mergedData.filter(newItem=>newItem.date===item.data.date)[0];
             let originalXCoord= null;

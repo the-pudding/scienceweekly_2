@@ -1,4 +1,8 @@
 
+function sortDates(a,b){
+    return a.date - b.date
+}
+
 function sortNumberStories(a,b){
     a=a.values.length;
     b=b.values.length;
@@ -17,4 +21,4 @@ function sortDatesYearMonth(a,b) {
     return new Date(a[0], a[1], 1) - new Date(b[0], b[1], 1)
 }
 
-export default {sortNumberStories, sortDatesKey, sortDatesYearMonth}
+export default {sortNumberStories, sortDatesKey, sortDatesYearMonth, sortDates}

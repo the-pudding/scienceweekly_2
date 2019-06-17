@@ -436,3 +436,97 @@ body
 .pink
     color $red
     font-weight: 800
+
+
+
+
+.arrow-intro-text-down
+  z-index set-index('overlay')
+  position absolute
+  top auto
+  bottom 5rem
+  right 50%
+  width 3.5rem
+  height 3.5rem
+  cursor pointer
+  display flex
+  justify-content center
+  align-items center
+  transform translate(50%,0) rotate(90deg);
+  +mq('bp-3')
+      transform translate(50%,0) rotate(90deg);
+      bottom 2rem
+      // top 1rem
+
+  .button-circle
+    position absolute
+    width 3.5rem
+    height 3.5rem
+    background-color $red
+    border-radius 50%
+    display flex
+    justify-content center
+    align-items center
+    animation pulse-dot 1.15s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite
+
+    svg
+      stroke $white
+      width 60%
+      height 60%
+      pulse-svg 1.15s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite
+
+  .pulse-circle
+    position absolute
+    width 6rem
+    height 6rem
+    background-color $white
+    border-radius 50%
+    animation pulse-ring 1.15s cubic-bezier(0.215, 0.61, 0.355, 1) infinite
+
+
+
+
+.arrow-intro-text-up
+  z-index set-index('overlay')
+  position absolute
+  bottom auto
+  top 5rem
+  right 50%
+  width 3.5rem
+  height 3.5rem
+  cursor pointer
+  display flex
+  justify-content center
+  align-items center
+  transform translate(50%,0) rotate(270deg);
+  +mq('bp-3')
+      transform translate(50%,0) rotate(270deg);
+      top 2rem
+      // top 1rem
+
+  .button-circle
+    position absolute
+    width 3.5rem
+    height 3.5rem
+    background-color $red
+    border-radius 50%
+    display flex
+    justify-content center
+    align-items center
+    animation pulse-dot 1.15s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite
+
+    svg
+      stroke $white
+      width 60%
+      height 60%
+      pulse-svg 1.15s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite
+
+  .pulse-circle
+    position absolute
+    width 6rem
+    height 6rem
+    background-color $white
+    border-radius 50%
+    animation pulse-ring 1.15s cubic-bezier(0.215, 0.61, 0.355, 1) infinite
+
+
