@@ -32,12 +32,13 @@ let rScale;
 
 // DOM + joins
 let $footer;
+let $conclusion;
 let $coverRight;
 let $coverLeft;
-let $introCopy1;
 let $buttonArrowCover;
-let $buttonArrowCopyForward;
+let $buttonArrowForward;
 let $buttonArrowBack;
+
 
 let simulation;
 let $tooltip;
@@ -51,6 +52,7 @@ let $svgBox;
 let $svg;
 let $timeline;
 let $timelineAxis;
+let $axisLine;
 let $timelineCirclesG;
 let $timelineAxisForeground
 let $timelineAxisBackground;
@@ -76,7 +78,7 @@ function setNavigationFunctionality(){
     $buttonArrowCover
     .on('click', handleForwardClick)
 
-    $buttonArrowCopyForward
+    $buttonArrowForward
         .on('click', handleForwardClick)
 
     $buttonArrowBack
@@ -86,15 +88,20 @@ function setNavigationFunctionality(){
 
 
 function handleMouseEnter(d,i,n){
+    d3.event.stopPropagation();
 
     if (width>600){
         const [xCoord,yCoord] = d3.mouse(this)
-        const introHeight = d3.select('div.intro').node().offsetHeight
         const htmlContents = d.data.type==='article' ? `<p class='sci-title'>${d.data.hed_main}</p><p class='sci-body'>${d.data.abstract.slice(0,200)}...</p>`: `<p class='sci-title'>${d.data.hed_main}</p><p class='sci-author'>${d.data.author}</p><p class='sci-body'>${d.data.abstract.slice(0,200)}...</p>`
     
         d3.selectAll('.paper').classed('faded', true)
         d3.selectAll('.article').classed('faded', true)
         d3.select(this).classed('highlight', true)
+        d3.select(this).on('click',d=>{
+            d.data.type==='article' ? window.open(d.data.web_url) : window.open(d.data.link);
+        })
+        $axisLine.st('opacity',0)
+        
     
         $tooltip
             .classed('hidden',false)
@@ -109,7 +116,7 @@ function handleMouseEnter(d,i,n){
             $tooltipAuthor.classed('hidden',true)
             $tooltipBody.text(`${d.data.abstract.slice(0,200)}...`)
             $tooltipLink.on('click',()=>{
-                console.log(d.data)
+                
                 window.open(d.data.web_url)
             })
         }
@@ -144,6 +151,8 @@ function handleMouseLeave(d){
     d3.selectAll('.article').classed('faded', false)
     d3.selectAll('.paper').classed('highlight', false)
     d3.selectAll('.article').classed('highlight', false)
+
+    $axisLine.st('opacity',1)
 }
 
 function scrollTo(element) {
@@ -157,6 +166,14 @@ function scrollTo(element) {
 function handleBackClick(){
     if(slideCount===1){
         
+        $coverRight.classed('hidden', false)
+        $coverLeft.classed('hidden', false) 
+    
+
+        $coverRight.classed('slide', false)
+        $coverLeft.classed('slide', false)
+        d3.select('.arrow-cover').classed('hidden',false)
+        
         d3.select('.arrow-back-to-intro').classed('hidden',true)
         d3.selectAll('.timeline-intro').classed('hidden',true)
 
@@ -166,9 +183,9 @@ function handleBackClick(){
         .classed('hidden',false)
 
         slideCount-=1
-        console.log(slideCount)
+        
 
-        $buttonArrowCopyForward.classed('hidden',true)
+        $buttonArrowForward.classed('hidden',true)
         $buttonArrowBack.classed('hidden',true)
     }
     if(slideCount===2){
@@ -177,9 +194,9 @@ function handleBackClick(){
         d3.selectAll('.timeline-intro').classed('hidden',true)
         d3.selectAll('.slide-1').classed('hidden',false)
         slideCount-=1
-        console.log(slideCount)
+        
 
-        $buttonArrowCopyForward.classed('hidden',false)
+        $buttonArrowForward.classed('hidden',false)
         $buttonArrowBack.classed('hidden',false)
     }
     if(slideCount===3){
@@ -187,22 +204,27 @@ function handleBackClick(){
         d3.select(`.timeline-svg`).classed('hidden',true)
         d3.selectAll('.timeline-intro').classed('hidden',true)
         d3.selectAll('.slide-2').classed('hidden',false)
+        
         slideCount-=1
-        console.log(slideCount)
+        
 
-        $buttonArrowCopyForward.classed('hidden',false)
+        $buttonArrowForward.classed('hidden',false)
         $buttonArrowBack.classed('hidden',false)
     }
   if(slideCount===4){
+        $footer.classed('hidden',true)
+        $conclusion.classed('hidden',true)
         $svgBox.classed('hidden', true)
         d3.select(`.timeline-svg`).classed('hidden',true)
         d3.selectAll('.timeline-intro').classed('hidden',true)
         d3.selectAll('.slide-3').classed('hidden',false)
+        d3.select('div.intro').classed('hidden',false)
         slideCount-=1
-        console.log(slideCount)
+        
 
-        $buttonArrowCopyForward.classed('hidden',false)
+        $buttonArrowForward.classed('hidden',false)
         $buttonArrowBack.classed('hidden',false)
+        
   }
 
 
@@ -255,36 +277,47 @@ else{}
 }
 
 function handleForwardClick(){
-    // console.log(slideCount)
+    
     if (slideCount === 0){
         
 
-        // $coverRight.classed('slide', true)
-        // $coverLeft.classed('slide', true)
+        $coverRight.classed('slide', true)
+        $coverLeft.classed('slide', true)
+        d3.select('.arrow-cover').classed('hidden',true)
+
 
         d3.selectAll('end')
         .classed('hidden',true)
 
-        d3.select('.intro')
-        .classed('hidden', true)
+        // d3.select('.intro')
+        // .classed('hidden', true)
 
-        d3.select('.cover-container')
-        .classed('hidden',true)
+        // d3.select('.cover-container')
+        // .classed('hidden',true)
 
         d3.select('.slide-1')
         .classed('hidden', false)
     
 
         slideCount+=1
-        console.log(slideCount)
+        
         $svgBox.classed('hidden',true)
         $footer.classed('hidden',true)
 
 
-        $buttonArrowCopyForward.classed('hidden',false)
+        $buttonArrowForward.classed('hidden',false)
         $buttonArrowBack.classed('hidden',false)
+
+        setTimeout(function(){
+            $coverRight.classed('hidden', true)
+            $coverLeft.classed('hidden', true) 
+    }, 500);
+
     }
     else if (slideCount === 1){
+        d3.select('.cover-container')
+        .classed('hidden',true)
+
         d3.selectAll('end').classed('hidden',true)
         d3.selectAll('.timeline-intro')
         .classed('hidden', true)
@@ -293,14 +326,16 @@ function handleForwardClick(){
         .classed('hidden', false)
 
         slideCount+=1
-        console.log(slideCount)
+        
         $svgBox.classed('hidden',true)
         $footer.classed('hidden',true)
 
-        $buttonArrowCopyForward.classed('hidden',false)
+        $buttonArrowForward.classed('hidden',false)
         $buttonArrowBack.classed('hidden',false)
     }
     else if (slideCount === 2){
+        d3.select('.cover-container')
+        .classed('hidden',true)
         d3.selectAll('end').classed('hidden',true)
         d3.selectAll('.timeline-intro')
         .classed('hidden', true)
@@ -309,15 +344,19 @@ function handleForwardClick(){
         .classed('hidden', false)
 
         slideCount+=1
-        console.log(slideCount)
+        
         $svgBox.classed('hidden',true)
         $footer.classed('hidden',true)
 
-        $buttonArrowCopyForward.classed('hidden',false)
+        $buttonArrowForward.classed('hidden',false)
         $buttonArrowBack.classed('hidden',false)
         
     }
     else {
+
+        $conclusion.classed('hidden',false)
+        d3.select('.cover-container')
+        .classed('hidden',true)
         d3.selectAll('end').classed('hidden',false)
         $svgBox.classed('hidden',false)
         $footer.classed('hidden',false)
@@ -330,11 +369,13 @@ function handleForwardClick(){
         d3.selectAll('.timeline-intro')
         .classed('hidden', true)
 
-        $buttonArrowCopyForward.classed('hidden',true)
+        $buttonArrowForward.classed('hidden',true)
         $buttonArrowBack.classed('hidden',false)
 
+        d3.select('div.intro').classed('hidden',true)
+
         slideCount+=1
-        console.log(slideCount)
+        
 // //         START of my edited code
 //         d3.select(`.timeline-intro`).st('display','none')
 //         $footer.classed('hidden',false)
@@ -365,7 +406,7 @@ function createSimulation(){
 
     for (var i = 0; i < 220; ++i) simulation.tick();
 
-    console.log(mergedData)
+    
 }
 
 function createTimelineAnnotations(mergedData){
@@ -388,7 +429,7 @@ function createTimelineAnnotations(mergedData){
             return i%2 ? -200 : 100
         }
         else{
-            console.log(i%2)
+            
             if(i%2){
 
                 
@@ -431,7 +472,7 @@ function createTimelineAnnotations(mergedData){
             x: item.x,
             r: item.type ==='article'? RAD_ARTICLE : RAD_PAPER
         }
-        console.log(item)
+        
         annotationObject['dx'] = setXOffset(index, item.x);
         annotationObject['dy'] = removeOverlap(item.anno_title);
 
@@ -594,6 +635,7 @@ function setupDOM() {
     $svgBox = $body.select('.timeline-box')
     $svg = d3.select('svg.timeline-svg')
     $timeline = $svg.append('g.timeline-g')
+    
 
     $tooltip = d3.select('.tooltip')
     $tooltipTitle =d3.select('.sci-title')
@@ -603,8 +645,10 @@ function setupDOM() {
 
   
     $buttonArrowCover = d3.select('.arrow-cover')
-    $buttonArrowCopyForward = d3.selectAll('.arrow-intro-text-down')
+    $buttonArrowForward = d3.selectAll('.arrow-intro-text-down')
     $buttonArrowBack = d3.selectAll('.arrow-intro-text-up')
+
+    $conclusion = d3.selectAll('.end')
     
 }
 
@@ -614,8 +658,10 @@ function render() {
   generateAnnotations()
 
 
-  $timeline
+    $axisLine = $timeline
         .append('line.time-axis')
+    
+    $axisLine
         .st('stroke','#000')
         .st('stroke-width', '0.5px')
         .st('opacity', 1)
@@ -627,7 +673,7 @@ function render() {
     $timelineAxis =  $timeline.append('g.timeline-axis')
     $timelineCirclesG = $timelineAxis.append('g.timeline-circle-g')
 
-    // console.log(mergedData)
+    
 
     articlesJoin = $timelineCirclesG
         .selectAll('g.cells')
@@ -640,7 +686,7 @@ function render() {
                  return (d.x< width + margin.right) && (d.x>-margin.left)? d.x : 0;
             })
             .y(d=> {
-                // d.type==='paper'? console.log(d.y): console.log('article')
+                
 
                 return (d.y< height + margin.top) && (d.y>-margin.top)? d.y : 0;
             })
@@ -651,7 +697,7 @@ function render() {
     $articleCells = articlesJoin
         .append('g.cells')
 
-        console.log(yScale.domain())
+        
     
     $articleCircles = $articleCells
         .append('circle')
@@ -672,6 +718,7 @@ function render() {
         })
         .on('mousemove',handleMouseEnter)
         .on('mouseleave',handleMouseLeave)
+        .on('click',handleMouseEnter)
 
 
     $timelineAxisBackground =  $timelineAxis.append('g.timeline-axis-background')
