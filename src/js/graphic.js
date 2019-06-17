@@ -116,7 +116,7 @@ function handleMouseEnter(d,i,n){
             $tooltipAuthor.classed('hidden',true)
             $tooltipBody.text(`${d.data.abstract.slice(0,200)}...`)
             $tooltipLink.on('click',()=>{
-                
+                d3.event.stopPropagation();                
                 window.open(d.data.web_url)
             })
         }
@@ -125,6 +125,8 @@ function handleMouseEnter(d,i,n){
             $tooltipAuthor.text(d.data.author)
             $tooltipBody.text(`${d.data.abstract.slice(0,200)}...`)
             $tooltipLink.on('click',()=>{
+                d3.event.stopPropagation();
+                
                 window.open(d.data.link)
             })
         }
@@ -139,7 +141,18 @@ function handleMouseEnter(d,i,n){
             .st('left',(width*0.1))
             .st('top',yCoord)
             .st('max-width', ()=>{return 0.8*width})
-            .on('click', handleMouseLeave)    
+            // .on('click', handleMouseLeave)   
+            .on('click',()=>{
+                window.alert('clicked')
+            })
+            .on('mouseenter',()=>{
+                window.alert('clicked')
+            })
+        
+        $tooltipLink.classed('hidden',false)
+        // $tooltipLink.on('click',()=>{
+
+        // })
             
     }
 }
@@ -151,6 +164,7 @@ function handleMouseLeave(d){
     d3.selectAll('.article').classed('faded', false)
     d3.selectAll('.paper').classed('highlight', false)
     d3.selectAll('.article').classed('highlight', false)
+    
 
     $axisLine.st('opacity',1)
 }
@@ -224,6 +238,7 @@ function handleBackClick(){
 
         $buttonArrowForward.classed('hidden',false)
         $buttonArrowBack.classed('hidden',false)
+        $scrollhint.classed('is-visible',false)
         
   }
 
@@ -373,6 +388,7 @@ function handleForwardClick(){
         $buttonArrowBack.classed('hidden',false)
 
         d3.select('div.intro').classed('hidden',true)
+        $scrollhint.classed('is-visible',true)
 
         slideCount+=1
         
