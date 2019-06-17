@@ -149,7 +149,7 @@ function handleMouseEnter(d,i,n){
                 window.alert('clicked')
             })
         
-        $tooltipLink.classed('hidden',false)
+        // $tooltipLink.classed('hidden',false)
         // $tooltipLink.on('click',()=>{
 
         // })
