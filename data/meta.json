@@ -3,15 +3,15 @@
 	"description": "How one unethical study on vaccines caused irreparable harm.",
 	"site": "https://pudding.cool",
 	"siteName": "Ilia Blinderman",
-	"url": "https://pudding.cool/2019/06/science_etc_2/",
+	"url": "https://pudding.cool/2019/06/scienceweekly_2/",
 	"keywords": "vaccines mmr anti-vaxx science",
-	"imgFacebook": "https://pudding.cool/year/month/name/assets/social/social-facebook.jpg",
-	"imgTwitter": "https://pudding.cool/year/month/name/assets/social/social-twitter.jpg",
+	"imgFacebook": "https://pudding.cool/2019/06/scienceweekly_2/assets/social/social-facebook.jpg",
+	"imgTwitter": "https://pudding.cool/2019/06/scienceweekly_2/assets/social/social-twitter.jpg",
 	"author": {
 		"name": "Ilia Blinderman",
 		"url": "https://pudding.cool/author/ilia-blinderman",
 		"twitterHandle": "@iliablinderman"
 	},
-	"analytics": "UA-90567923-1",
-	"lorem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mollis neque sit amet sollicitudin vehicula. Maecenas fringilla mi non lacus mattis elementum. Curabitur dignissim faucibus justo."
+	"analytics": "UA-90567923-1"
+	
 }
